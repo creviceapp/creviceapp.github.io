@@ -3,9 +3,9 @@
 
 ## Complete list of Keys
 
-| Property Name | Value | Description
-|-----|-----|-----
-WheelUp | -
+Property Name | Value | Description
+-----|-----|-----
+WheelUp | - | -
 WheelDown | -
 WheelLeft | -
 WheelRight | -
@@ -218,8 +218,8 @@ src: CreviceApp\WinAPI.Constants.VirtualKeys.cs
 -->
 
 
-| Property Name | Value | Description
-|-----|-----|-----
+Property Name | Value | Description
+-----|-----|-----
  VK_LBUTTON | 0x01 | Left mouse button
  VK_RBUTTON | 0x02 | Right mouse button
  VK_CANCEL | 0x03 | Control-break processing
@@ -421,8 +421,8 @@ src: CreviceApp\WinAPI.Constants.WindowsMessages.cs
 \1| \2|\3
 -->
 
-| Property Name | Value 
-|-----|-----
+Property Name | Value 
+-----|-----
  WM_NULL | 0x0000
  WM_CREATE | 0x0001
  WM_DESTROY | 0x0002
