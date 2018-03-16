@@ -1151,8 +1151,8 @@ Config.Callback.StrokeUpdate += (sender, e) { };
 ```
   
 This event activated when the state of mouse's stroke to be changed.
-  
 `e` is `StrokeUpdateEventHandler `.
+  
 Type | Property Name | Description |
 -----|-----|------
 IReadOnlyList\<Stroke\> | Strokes | 
