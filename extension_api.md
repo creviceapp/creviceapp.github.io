@@ -13,14 +13,14 @@ using Crevice.WinAPI.Window;
 
 Return Value | Method Definition | Description
 -----|-----|-----
-WindowInfo | Window.From(IntPtr hWnd) | This function wraps `IntPtr` and returns an instance of `WindowInfo`.
-System.Drawing.Point | Window.GetCursorPos() | A shortcut to win32 API `GetCursorPos()`.
-System.Drawing.Point | Window.GetLogicalCursorPos() | Returns logical cursor position culculated based on win32 API `GetPhysicalCursorPos()` and physical and logical screen size.
-System.Drawing.Point | Window.GetPhysicalCursorPos() | A shortcut to win32 API `GetPhysicalCursorPos()`.
-WindowInfo | Window.WindowFromPoint(Point point) | Returns a window under the cursor.
-WindowInfo | Window.FindWindow(string lpClassName, string lpWindowName) | Find a window matches given class name and window name.
-IReadOnlyList<WindowInfo> | Window.GetTopLevelWindows() | Enumerates all windows.
-IReadOnlyList<WindowInfo> | Window.GetThreadWindows(int threadId) | Enumerates all windows belonging specified thread.
+WindowInfo | From(IntPtr hWnd) | This function wraps `IntPtr` and returns an instance of `WindowInfo`.
+System.Drawing.Point | GetCursorPos() | A shortcut to win32 API `GetCursorPos()`.
+System.Drawing.Point | GetLogicalCursorPos() | Returns logical cursor position culculated based on win32 API `GetPhysicalCursorPos()` and physical and logical screen size.
+System.Drawing.Point | GetPhysicalCursorPos() | A shortcut to win32 API `GetPhysicalCursorPos()`.
+WindowInfo | WindowFromPoint(Point point) | Returns a window under the cursor.
+WindowInfo | FindWindow(string lpClassName, string lpWindowName) | Find a window matches given class name and window name.
+IReadOnlyList\<WindowInfo\> | GetTopLevelWindows() | Enumerates all windows.
+IReadOnlyList\<WindowInfo\> | GetThreadWindows(int threadId) | Enumerates all windows belonging specified thread.
 
 ## VirtualKeys
 

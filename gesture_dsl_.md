@@ -13,7 +13,7 @@ var Chrome = When(ctx =>
 });
 ```
   
-_Note: `ctx` is EvaluationContext, see [Crevice4 Core API/EvaluationContext](#evaluationcontext ) for more details._
+_Note: `ctx` is EvaluationContext, see [Core API - EvaluationContext](#evaluationcontext ) for more details._
   
 The next to `When` are `On` and `OnDecomposed` clauses.
   
@@ -122,7 +122,7 @@ Do(ctx => // and release mouse's right button,
 });
 ```
   
-_Note: `ctx` is `ExecutionContext`, see [Crevice4 Core API/ExecutionContext](#executioncontext ) for more details._
+_Note: `ctx` is `ExecutionContext`, see [Core API - ExecutionContext](#executioncontext ) for more details._
   
 ## Press
   
@@ -137,7 +137,7 @@ Press(ctx => // without waiting for release event,
 });
 ```
   
-_Note: `ctx` is `ExecutionContext`, see [Crevice4 Core API/ExecutionContext](#executioncontext ) for more details._
+_Note: `ctx` is `ExecutionContext`, see [Core API - ExecutionContext](#executioncontext ) for more details._
   
 ## Release
   
@@ -152,7 +152,7 @@ Release(ctx => // and release mouse's right button,
 });
 ```
   
-_Note: `ctx` is `ExecutionContext`, see [Crevice4 Core API/ExecutionContext](#executioncontext ) for more details._
+_Note: `ctx` is `ExecutionContext`, see [Core API - ExecutionContext](#executioncontext ) for more details._
   
 ## Button gesture
   

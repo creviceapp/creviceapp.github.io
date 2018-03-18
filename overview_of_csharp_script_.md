@@ -2,7 +2,7 @@
 # Overview of C# Scripting
   
   
-C# Scripting is a powerful and flexible scripting feature provided by [Microsoft Ryslyn](https://github.com/dotnet/roslyn ). It designed to make scripts you cut and pasted from C# code work as-is. So, you can build your own gesture environment easily just only with a little of knowledge of C# language. But C# Scripting has only a few special feature C# language does not have. The following section is the introduction of the features very useful if you know it when you need to do it.
+C# Scripting is a powerful and flexible scripting feature provided by [Microsoft Roslyn](https://github.com/dotnet/roslyn ). It designed to make scripts you cut and pasted from C# code work as-is. So, you can build your own gesture environment easily just only with a little of knowledge of C# language. But C# Scripting has only a few special feature C# language does not have. The following section is the introduction of the features very useful if you know it when you need to do it.
   
 ## #r directive
   

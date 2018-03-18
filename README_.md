@@ -78,7 +78,7 @@ var Chrome = When(ctx =>
 });
 ```
   
-_Note: `ctx` is EvaluationContext, see [Crevice4 Core API/EvaluationContext](#evaluationcontext ) for more details._
+_Note: `ctx` is EvaluationContext, see [Core API - EvaluationContext](#evaluationcontext ) for more details._
   
 The next to `When` are `On` and `OnDecomposed` clauses.
   
@@ -192,7 +192,7 @@ Do(ctx => // and release mouse's right button,
 });
 ```
   
-_Note: `ctx` is `ExecutionContext`, see [Crevice4 Core API/ExecutionContext](#executioncontext ) for more details._
+_Note: `ctx` is `ExecutionContext`, see [Core API - ExecutionContext](#executioncontext ) for more details._
   
 ## Press
   
@@ -208,7 +208,7 @@ Press(ctx => // without waiting for release event,
 });
 ```
   
-_Note: `ctx` is `ExecutionContext`, see [Crevice4 Core API/ExecutionContext](#executioncontext ) for more details._
+_Note: `ctx` is `ExecutionContext`, see [Core API - ExecutionContext](#executioncontext ) for more details._
   
 ## Release
   
@@ -224,7 +224,7 @@ Release(ctx => // and release mouse's right button,
 });
 ```
   
-_Note: `ctx` is `ExecutionContext`, see [Crevice4 Core API/ExecutionContext](#executioncontext ) for more details._
+_Note: `ctx` is `ExecutionContext`, see [Core API - ExecutionContext](#executioncontext ) for more details._
   
 ## Button gesture
   
@@ -406,7 +406,7 @@ Release(ctx => { }); // Compilation error
   
   
   
-C# Scripting is a powerful and flexible scripting feature provided by [Microsoft Ryslyn](https://github.com/dotnet/roslyn ). It designed to make scripts you cut and pasted from C# code work as-is. So, you can build your own gesture environment easily just only with a little of knowledge of C# language. But C# Scripting has only a few special feature C# language does not have. The following section is the introduction of the features very useful if you know it when you need to do it.
+C# Scripting is a powerful and flexible scripting feature provided by [Microsoft Roslyn](https://github.com/dotnet/roslyn ). It designed to make scripts you cut and pasted from C# code work as-is. So, you can build your own gesture environment easily just only with a little of knowledge of C# language. But C# Scripting has only a few special feature C# language does not have. The following section is the introduction of the features very useful if you know it when you need to do it.
   
 ## #r directive
   
@@ -1308,15 +1308,15 @@ string | ProfileName
   
 Type | Property Name | Description |
 -----|-----|-----|
-IntPtr | WindowHandle
-int | ThreadId
-int | ProcessId
-IntPtr | WindowId
-string | Text
-string | ClassName
-WindowInfo | Parent
-string | ModulePath
-string | ModuleName
+IntPtr | WindowHandle | Window's handle.
+int | ThreadId | Window's thread id.
+int | ProcessId | Window's process id.
+IntPtr | WindowId | Window's window id.
+string | Text | Window's title.
+string | ClassName | Window's class name.
+WindowInfo | Parent | `WindowInfo` of window's parent window.
+string | ModulePath | Window's module path.
+string | ModuleName | Window's module name.
   
 ### Methods
   
@@ -1333,6 +1333,8 @@ IReadOnlyList\<WindowInfo\> | GetChildWindows() | A shortcut to win32 API `EnumC
 IReadOnlyList\<WindowInfo\> |  GetPointedDescendantWindows(Point point, Window.WindowFromPointFlags flags) | A shortcut to win32 API `ChildWindowFromPointEx(hWnd, point, flags)`. This function recursively calls `ChildWindowFromPointEx` until reach to the last descendant window.
 IReadOnlyList\<WindowInfo\> | GetPointedDescendantWindows(Point point) | A shortcut to win32 API `ChildWindowFromPointEx(hWnd, point, Window.WindowFromPointFlags.CWP_ALL)`. This function recursively calls `ChildWindowFromPointEx` until reach to the last descendant window.
 void | Activate() | Brings window into the foreground and activates the window.
+  
+And, you can use a static utility class `Window` for accessing and manipulating a window. See [Extension API - Window](#window ) for more details.
   
 ## SendInput
   
@@ -1461,7 +1463,7 @@ Tooltip("This is tooltip.");
   
  Method Definition | Description
 -----|-----
-Tooltip(string text) | Show tooltip message at the right bottom corner of the display on the cursor, by default. You can configure the position by changing `Config.UI.TooltipPositionBinding`, see [Config/Bindings](#bindings ).
+Tooltip(string text) | Show tooltip message at the right bottom corner of the display on the cursor, by default. You can configure the position by changing `Config.UI.TooltipPositionBinding`, see [Config - Bindings](#bindings ).
 Tooltip(string text, Point point) | Show a tooltip message at the specified position.
 Tooltip(string text, Point point, int duration) | Show a tooltip message at the specified position for a specified period.
   
@@ -1558,14 +1560,14 @@ using Crevice.WinAPI.Window;
   
 Return Value | Method Definition | Description
 -----|-----|-----
-WindowInfo | Window.From(IntPtr hWnd) | This function wraps `IntPtr` and returns an instance of `WindowInfo`.
-System.Drawing.Point | Window.GetCursorPos() | A shortcut to win32 API `GetCursorPos()`.
-System.Drawing.Point | Window.GetLogicalCursorPos() | Returns logical cursor position culculated based on win32 API `GetPhysicalCursorPos()` and physical and logical screen size.
-System.Drawing.Point | Window.GetPhysicalCursorPos() | A shortcut to win32 API `GetPhysicalCursorPos()`.
-WindowInfo | Window.WindowFromPoint(Point point) | Returns a window under the cursor.
-WindowInfo | Window.FindWindow(string lpClassName, string lpWindowName) | Find a window matches given class name and window name.
-IReadOnlyList<WindowInfo> | Window.GetTopLevelWindows() | Enumerates all windows.
-IReadOnlyList<WindowInfo> | Window.GetThreadWindows(int threadId) | Enumerates all windows belonging specified thread.
+WindowInfo | From(IntPtr hWnd) | This function wraps `IntPtr` and returns an instance of `WindowInfo`.
+System.Drawing.Point | GetCursorPos() | A shortcut to win32 API `GetCursorPos()`.
+System.Drawing.Point | GetLogicalCursorPos() | Returns logical cursor position culculated based on win32 API `GetPhysicalCursorPos()` and physical and logical screen size.
+System.Drawing.Point | GetPhysicalCursorPos() | A shortcut to win32 API `GetPhysicalCursorPos()`.
+WindowInfo | WindowFromPoint(Point point) | Returns a window under the cursor.
+WindowInfo | FindWindow(string lpClassName, string lpWindowName) | Find a window matches given class name and window name.
+IReadOnlyList\<WindowInfo\> | GetTopLevelWindows() | Enumerates all windows.
+IReadOnlyList\<WindowInfo\> | GetThreadWindows(int threadId) | Enumerates all windows belonging specified thread.
   
 ## VirtualKeys
   

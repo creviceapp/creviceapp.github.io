@@ -59,15 +59,15 @@ string | ProfileName
   
 Type | Property Name | Description |
 -----|-----|-----|
-IntPtr | WindowHandle
-int | ThreadId
-int | ProcessId
-IntPtr | WindowId
-string | Text
-string | ClassName
-WindowInfo | Parent
-string | ModulePath
-string | ModuleName
+IntPtr | WindowHandle | Window's handle.
+int | ThreadId | Window's thread id.
+int | ProcessId | Window's process id.
+IntPtr | WindowId | Window's window id.
+string | Text | Window's title.
+string | ClassName | Window's class name.
+WindowInfo | Parent | `WindowInfo` of window's parent window.
+string | ModulePath | Window's module path.
+string | ModuleName | Window's module name.
   
 ### Methods
   
@@ -83,6 +83,8 @@ IReadOnlyList\<WindowInfo\> | GetChildWindows() | A shortcut to win32 API `EnumC
 IReadOnlyList\<WindowInfo\> |  GetPointedDescendantWindows(Point point, Window.WindowFromPointFlags flags) | A shortcut to win32 API `ChildWindowFromPointEx(hWnd, point, flags)`. This function recursively calls `ChildWindowFromPointEx` until reach to the last descendant window.
 IReadOnlyList\<WindowInfo\> | GetPointedDescendantWindows(Point point) | A shortcut to win32 API `ChildWindowFromPointEx(hWnd, point, Window.WindowFromPointFlags.CWP_ALL)`. This function recursively calls `ChildWindowFromPointEx` until reach to the last descendant window.
 void | Activate() | Brings window into the foreground and activates the window.
+  
+And, you can use a static utility class `Window` for accessing and manipulating a window. See [Extension API - Window](#window ) for more details.
   
 ## SendInput
   
@@ -203,7 +205,7 @@ Tooltip("This is tooltip.");
   
  Method Definition | Description
 -----|-----
-Tooltip(string text) | Show tooltip message at the right bottom corner of the display on the cursor, by default. You can configure the position by changing `Config.UI.TooltipPositionBinding`, see [Config/Bindings](#bindings ).
+Tooltip(string text) | Show tooltip message at the right bottom corner of the display on the cursor, by default. You can configure the position by changing `Config.UI.TooltipPositionBinding`, see [Config - Bindings](#bindings ).
 Tooltip(string text, Point point) | Show a tooltip message at the specified position.
 Tooltip(string text, Point point, int duration) | Show a tooltip message at the specified position for a specified period.
   
