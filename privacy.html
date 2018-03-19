@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crevice Privacy</title>
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <style>
+    button.sidebar-toggle,
+    aside.sidebar {
+      display: none;
+    }
+      section.content {
+        left: 0;
+      }
+      
+      img#crevice_logo {
+          height: 40px;
+      }
+      </style>
+</head>
+<body>
+  <div id="app"></div>
+</body>
+<script>
+  window.$docsify = {
+    repo: 'https://github.com/creviceapp/creviceapp/',
+    basePath: '../',
+    onlyCover: false,
+    homepage: 'privacy.md',
+    auto2top: true,
+    loadSidebar: false,
+    autoHeader: false,
+    mergeNavbar: true,
+    search: false,
+  }
+</script>
+<script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/docsify.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/search.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/zoom-image.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-markdown.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-clike.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script>
+  Prism.languages.cs = Prism.languages.csharp;
+</script>
+</html>

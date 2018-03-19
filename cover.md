@@ -1,6 +1,11 @@
-
+<style>
+img#crevice_logo {
+    height: 80px;
+}
+</style>
+    
 <p align="center"> 
-<img src="images/logo.png" alt="logo">
+<img id="crevice_logo" src="images/logo.png" alt="logo">
 </p>
 
 
