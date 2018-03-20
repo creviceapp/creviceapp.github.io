@@ -33,6 +33,11 @@
               '<script type="WaveDrom">' + code + "<\/script>"
             );
           }
+          else if (lang === "force_execute_js") {
+            return (
+              '<script type="text/javascript">' + code + "<\/script>"
+            );
+          }
           return this.origin.code.apply(this, arguments);
         }
       }

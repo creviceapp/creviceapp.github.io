@@ -1,9 +1,9 @@
   
-<script>
+```force_execute_js
 (function(){
     WaveDrom.ProcessAll();
 })();
-</script>
+```
   
   
   
@@ -2342,9 +2342,9 @@ _Note: `CreviceLib` is distributed as a nuget package. Visit [NuGet Gallery \| C
 ```wavedrom
 { 
     signal: [
-        { name: 'Type A Key', wave: '0h.l',  node: '.a.b'},
-        { name: 'Press Event', wave: '0l..',  node: '.c..' },
-        { name: 'Release Event', wave: '0..l',  node: '...d' },
+        { name: 'KeyA', wave: '0h.l',  node: '.a.b'},
+        { name: 'PressEvent', wave: '0l..',  node: '.c..' },
+        { name: 'ReleaseEvent', wave: '0..l',  node: '...d' },
     ],
     edge: [
         "a->b Pressing",
@@ -2359,8 +2359,8 @@ And **KeyB** is used only in a few cases, have an only event, `FireEvent`.
 ```wavedrom
 { 
     signal: [
-        { name: 'Type B Key', wave: '0l',  node: '.a'},
-        { name: 'Fire Event', wave: '0l',  node: '.b' },
+        { name: 'KeyB', wave: '0l',  node: '.a'},
+        { name: 'FireEvent', wave: '0l',  node: '.b' },
     ],
     edge: [
         "a=b",
@@ -2377,12 +2377,12 @@ It may be seemed strange that an event but a button be treated as a key, but a c
 ```wavedrom
 { 
     signal: [
-        { name: 'Type A Key', wave: '0h.l',  node: '.a.b'},
-        { name: 'Press Event', wave: '0l..',  node: '.c..' },
-        { name: 'Release Event', wave: '0..l',  node: '...d' },
+        { name: 'KeyA', wave: '0h.l',  node: '.a.b'},
+        { name: 'PressEvent', wave: '0l..',  node: '.c..' },
+        { name: 'ReleaseEvent', wave: '0..l',  node: '...d' },
         {},
-        { name: 'Type B Key', wave: '0l..',  node: '.e'},
-        { name: 'Fire Event', wave: '0l..',  node: '.f' },
+        { name: 'KeyB', wave: '0l..',  node: '.e'},
+        { name: 'FireEvent', wave: '0l..',  node: '.f' },
     ],
     edge: [
         "b->e Compress",

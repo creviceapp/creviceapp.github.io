@@ -1,9 +1,9 @@
-  
-<script>
+
+```force_execute_js
 (function(){
     WaveDrom.ProcessAll();
 })();
-</script>
+```
 
 <!-- @import "installation_.md" -->
 <!-- @import "quickstart_.md" -->
