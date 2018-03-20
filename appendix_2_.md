@@ -12,13 +12,16 @@ _Note: `CreviceLib` is distributed as a nuget package. Visit [NuGet Gallery \| C
 ## Key
   
   
-`CreviceLib` treats two types of key, **KeyA** and **KeyB** which abstracted from **type A (double throw)** and **type B (single throw)** keys on the real world. For example, left (or right) button of a mouse device is the former, and up (or down) event of wheel button is the later. We do not need to think about the case where we need another type of key, for the peace of mind.
+`CreviceLib` treats two types of key, **KeyA** and **KeyB** which abstracted from **type A (double throw)** and **type B (single throw)** keys on the real world. For example, any key of a keyboard device is the former, and up (or down) event of wheel button of a mouse device is the later. We do not need to think about the case where we need another type of key, for the peace of mind.
   
-![Fig. Type A (single throw) key](./images/ap2.fig1.jpg )<div class="img-caption">Fig. Type A (single throw) key</div>
+![Fig. Type A (double throw) key](./images/ap2.fig1.jpg )
+<div class="img-caption">Fig. Type A (double throw) key</div>
   
-![Fig. Type B (double throw) key](./images/ap2.fig2.jpg )<div class="img-caption">Fig. Type B (double throw) key</div>
+![Fig. Type B (single throw) key](./images/ap2.fig2.jpg )
+<div class="img-caption">Fig. Type B (single throw) key</div>
   
-![Fig. An bizarre, blasphemous key](./images/ap2.fig3.jpg )<div class="img-caption">Fig. An bizarre, blasphemous key</div>
+![Fig. An bizarre, blasphemous key](./images/ap2.fig3.jpg )
+<div class="img-caption">Fig. An bizarre, blasphemous key</div>
   
 **KeyA** which occupies most of use cases, have two events, `PressEvent` and `ReleaseEvent`. 
   
@@ -54,7 +57,7 @@ And **KeyB** is used only in a few cases, have an only event, `FireEvent`.
 ### The difference between KeyA and KeyB
   
   
-It may be seemed strange that an event but a button be treated as a key, but a counterpart of up event of wheel button is not any of the other events which belongs to it. The counterpart of the up event is itself; you can think that it to be compressed. If there is no need to distinguish `PressEvent` and `ReleaseEvent` of a **KeyA**, do not you think that it can be compressed into a **KeyB**?
+It may be seemed strange that an event be treated as a key, but a counterpart of up event of wheel button is not any of the other events which belongs to it. The counterpart of the up event is itself; you can think that it to be compressed. If there is no need to distinguish `PressEvent` and `ReleaseEvent` of a **KeyA**, do not you think that it can be compressed into a **KeyB**?
   
 ```wavedrom
 { 
