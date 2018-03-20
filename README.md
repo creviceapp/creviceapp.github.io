@@ -1,5 +1,5 @@
 
-```force_execute_js
+```force_js
 (function(){
     WaveDrom.ProcessAll();
 })();

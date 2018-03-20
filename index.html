@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Crevice Documentation</title>
-  <meta name="description" content="Description">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+<meta charset="UTF-8">
+<title>Crevice Documentation</title>
+<meta name="description" content="Description">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+<style>
+#main img {
+  max-width: 33%;
+}
+
+#main .img-caption {
+  margin-bottom: 2.4em;
+}
+</style>
 </head>
 <body>
   <div id="app"></div>
@@ -33,7 +42,7 @@
               '<script type="WaveDrom">' + code + "<\/script>"
             );
           }
-          else if (lang === "force_execute_js") {
+          else if (lang === "force_js") {
             return (
               '<script type="text/javascript">' + code + "<\/script>"
             );
