@@ -1,3 +1,9 @@
+  
+<script>
+(function(){
+    WaveDrom.ProcessAll();
+})();
+</script>
 
 <!-- @import "installation_.md" -->
 <!-- @import "quickstart_.md" -->

@@ -12,7 +12,8 @@
 </body>
 <script>
   window.$docsify = {
-    name: 'Crevice4',
+    executeScript: true,
+    name: 'Crevice Documentation',
     repo: 'https://github.com/creviceapp/creviceapp/',
     homepage: 'README_.md',
     maxLevel: 2,
@@ -24,15 +25,30 @@
     search: {
       paths: 'auto',
     },
+    markdown: {
+      renderer: {
+        code: function(code, lang) {
+          if (lang === "wavedrom") {
+            return (
+              '<script type="WaveDrom">' + code + "<\/script>"
+            );
+          }
+          return this.origin.code.apply(this, arguments);
+        }
+      }
+    },
   }
 </script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/docsify.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/search.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/zoom-image.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/external-script.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-markdown.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-clike.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script>
   Prism.languages.cs = Prism.languages.csharp;
 </script>
+<script src="//wavedrom.com/skins/default.js"></script>
+<script src="//wavedrom.com/WaveDrom.js"></script>
 </html>

@@ -16,14 +16,14 @@ _Note: `CreviceLib` is distributed as a nuget package. Visit [NuGet Gallery \| C
 ```wavedrom
 { 
     signal: [
-        { name: 'Type A Key', wave: '0h.l',  node: '.a.b'},
-        { name: 'Press Event', wave: '0l..',  node: '.c..' },
-        { name: 'Release Event', wave: '0..l',  node: '...d' },
+        { name: 'KeyA', wave: '0h.l',  node: '.a.b'},
+        { name: 'PressEvent', wave: '0l..',  node: '.c..' },
+        { name: 'ReleaseEvent', wave: '0..l',  node: '...d' },
     ],
     edge: [
         "a->b Pressing",
-        "a=>c",
-        "b=>d",
+        "a=c",
+        "b=d",
     ]
 }
 ```
@@ -33,26 +33,28 @@ And **KeyB** is used only in a few cases, have an only event, `FireEvent`.
 ```wavedrom
 { 
     signal: [
-        { name: 'Type B Key', wave: '0l',  node: '.a'},
-        { name: 'Fire Event', wave: '0l',  node: '.b' },
+        { name: 'KeyB', wave: '0l',  node: '.a'},
+        { name: 'FireEvent', wave: '0l',  node: '.b' },
     ],
     edge: [
-        "a=>b",
+        "a=b",
     ]
 }
 ```
 
-It may be seemed strange that an event but a button to be treated as a key, but a counterpart of up event of wheel button is not any of the events of it. The counterpart of up event of wheel button is itself; you can think that it to be compressed. If there is no need to distinguish `PressEvent` and `ReleaseEvent` of a type A key, do not you think that it can be compressed into a type B key?
+### The difference between KeyA and KeyB
+
+It may be seemed strange that an event but a button be treated as a key, but a counterpart of up event of wheel button is not any of the other events which belongs to it. The counterpart of the up event is itself; you can think that it to be compressed. If there is no need to distinguish `PressEvent` and `ReleaseEvent` of a **KeyA**, do not you think that it can be compressed into a **KeyB**?
 
 ```wavedrom
 { 
     signal: [
-        { name: 'Type A Key', wave: '0h.l',  node: '.a.b'},
-        { name: 'Press Event', wave: '0l..',  node: '.c..' },
-        { name: 'Release Event', wave: '0..l',  node: '...d' },
+        { name: 'KeyA', wave: '0h.l',  node: '.a.b'},
+        { name: 'PressEvent', wave: '0l..',  node: '.c..' },
+        { name: 'ReleaseEvent', wave: '0..l',  node: '...d' },
         {},
-        { name: 'Type B Key', wave: '0l..',  node: '.e'},
-        { name: 'Fire Event', wave: '0l..',  node: '.f' },
+        { name: 'KeyB', wave: '0l..',  node: '.e'},
+        { name: 'FireEvent', wave: '0l..',  node: '.f' },
     ],
     edge: [
         "b->e Compress",
@@ -64,6 +66,8 @@ It may be seemed strange that an event but a button to be treated as a key, but 
 ## KeySet
 
 `CreviceLib` provides **KeySet** classes managing a set of sequential keys. `SimpleKeySetA` corresponds to `DoubleThrowKey` and `SimpleKeySetB` corresponds to `SingleThrowKey`.
+
+
 
 ## GestureMachineConfig
 
