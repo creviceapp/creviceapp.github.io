@@ -11,11 +11,11 @@ _Note: `CreviceLib` is distributed as a nuget package. Visit [NuGet Gallery \| C
 
 `CreviceLib` treats two types of key, **KeyA** and **KeyB** which abstracted from **type A (double throw)** and **type B (single throw)** keys on the real world. For example, left (or right) button of a mouse device is the former, and up (or down) event of wheel button is the later. We do not need to think about the case where we need another type of key, for the peace of mind.
 
-![Fig. Type A (single throw) key](./images/ap2.fig1.jpg)
-<div class="img-caption">Fig. Type A (single throw) key</div>
+![Fig. Type A (double throw) key](./images/ap2.fig1.jpg)
+<div class="img-caption">Fig. Type A (double throw) key</div>
 
-![Fig. Type B (double throw) key](./images/ap2.fig2.jpg)
-<div class="img-caption">Fig. Type B (double throw) key</div>
+![Fig. Type B (single throw) key](./images/ap2.fig2.jpg)
+<div class="img-caption">Fig. Type B (single throw) key</div>
 
 ![Fig. An bizarre, blasphemous key](./images/ap2.fig3.jpg)
 <div class="img-caption">Fig. An bizarre, blasphemous key</div>
