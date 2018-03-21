@@ -2336,7 +2336,7 @@ _Note: `CreviceLib` is distributed as a nuget package. Visit [NuGet Gallery \| C
   
   
   
-At first, check if the reference to `CreviceLib` is certainly added to the project.
+At first, check if the reference to `CreviceLib` is certainly added to your project.
   
 The very simple setup code is the following:
   
