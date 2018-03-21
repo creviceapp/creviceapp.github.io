@@ -9,19 +9,58 @@
   
 _Note: `CreviceLib` is distributed as a nuget package. Visit [NuGet Gallery \| CreviceLib](https://www.nuget.org/packages/Crevice.Core/ ) for more details._
   
+  
+## Quickstart
+  
+  
+You should be prepared before starting to write gesture DSL. The setup code is the following:
+  
+```cs
+var keys = new SimpleKeySetA(maxSize: 10);
+var root = new SimpleRootElement(); 
+```
+  
+Then, you can be able to start writing gesture DSL.
+  
+```cs
+var whenever = root.When(ctx => {
+    return true;
+});
+var action = whenever.On(keys[0]);
+action.Do(ctx => {
+    // When PressEvent and ReleaseEvent of KeySetA[0] are given to GestureMachine,
+    // then this code will be executed.
+});
+```
+  
+After writing the gesture DSL, you can now run `GestureMachine`.
+  
+```cs
+var gm = new SimpleGestureMachine();
+gm.run(root);
+```
+  
+And finally, you should connect user input to `GestureMachine`.
+  
+```cs
+gm.input(keys[0].PressEvent);
+gm.input(keys[0].ReleaseEvent);
+```
+  
+  
 ## Key
   
   
-`CreviceLib` treats two types of key, **KeyA** and **KeyB** which abstracted from **type A (double throw)** and **type B (single throw)** keys on the real world. For example, any key of a keyboard device is the former, and up (or down) event of wheel button of a mouse device is the later. We do not need to think about the case where we need another type of key, for the peace of mind.
+`CreviceLib` treats two types of key, **KeyA** and **KeyB**, which abstracted from **type A (double throw)** and **type B (single throw)** keys on the real world. For example, any key of a keyboard device is the former, and up (or down) event of wheel button of a mouse device is the later. We do not need to think about the case where we need another type of key, for the peace of mind.
   
-![Fig. Type A (double throw) key](./images/ap2.fig1.jpg )
-<div class="img-caption">Fig. Type A (double throw) key</div>
+![Fig1. Type A (double throw) key.](./images/ap2.fig1.jpg )
+<div class="img-caption">Fig1. Type A (double throw) key.</div>
   
-![Fig. Type B (single throw) key](./images/ap2.fig2.jpg )
-<div class="img-caption">Fig. Type B (single throw) key</div>
+![Fig2. Type B (single throw) key.](./images/ap2.fig2.jpg )
+<div class="img-caption">Fig2. Type B (single throw) key.</div>
   
-![Fig. An bizarre, blasphemous key](./images/ap2.fig3.jpg )
-<div class="img-caption">Fig. An bizarre, blasphemous key</div>
+![Fig3. A bizarre, unspeakable key.](./images/ap2.fig3.jpg )
+<div class="img-caption">Fig3. A bizarre, unspeakable key.</div>
   
 **KeyA** which occupies most of use cases, have two events, `PressEvent` and `ReleaseEvent`. 
   
@@ -40,7 +79,7 @@ _Note: `CreviceLib` is distributed as a nuget package. Visit [NuGet Gallery \| C
 }
 ```
   
-And **KeyB** is used only in a few cases, have an only event, `FireEvent`. 
+**KeyB** is used only in a few cases, have an only event, `FireEvent`. 
   
 ```wavedrom
 { 
@@ -79,39 +118,78 @@ It may be seemed strange that an event be treated as a key, but a counterpart of
 ## KeySet
   
   
-`CreviceLib` provides **KeySet** classes managing a set of sequential keys. `SimpleKeySetA` corresponds to `DoubleThrowKey` and `SimpleKeySetB` corresponds to `SingleThrowKey`.
+`CreviceLib` provides **KeySet** classes managing a set of sequential keys. `SimpleKeySetA` corresponds to `DoubleThrowKey` and `SimpleKeySetB` corresponds to `SingleThrowKey`. These can be used in a simply way, only take an argument `maxSize` which means the maximum size of the sequential key set.
   
+```cs
+var keySetA = new SimpleKeySetA(maxSize: 10);
+Assert.AreEqual(keySetA is PhysicalDoubleThrowKeySet, true);
+Assert.AreEqual(keySetA[0] is PhysicalDoubleThrowKey, true);
+Assert.AreEqual(keySetA[0].PressEvent is PressEvent, true);
+Assert.AreEqual(keySetA[0].ReleaseEvent is ReleaseEvent, true);
+```
   
+```cs
+var keySetB = new SimpleKeySetB(maxSize: 10);
+Assert.AreEqual(keySetB is PhysicalSingleThrowKeySet, true);
+Assert.AreEqual(keySetB[0] is PhysicalSingleThrowKey, true);
+Assert.AreEqual(keySetB[0].FireEvent is FireEvent, true);
+```
+  
+_Note: Regarding the adjective **Physical** commonly held by both names of the type of `SimpleKeySetA` and `SimpleKeySetB`, see [Physical and logical event types](#physical_and_logical_event_types ) for more details._
   
 ## GestureMachineConfig
   
   
+`GestureMachineConfig` holds configuration values for `GestureMachine`. The configuration values are so mutable that you can edit it if you want any time. Also you can use newly customized `GestureMachineConfig` by inheriting it.
+  
+`SimpleGestureMachineConfig` is a example class, which inherits `GestureMachineConfig` and do not have any change to it.
+  
+```cs
+var config = new SimpleGestureMachineConfig();
+config.GestureTimeout = 0; // Set GestureMachine to never timeout.
+```
+  
 ## RootElement
   
+  
+`RootElement` is the root element of the tree of gesture DSL. You can start definition of your gestures with `When()` function.
+  
+```cs
+var root = new SimpleRootElement();
+var whenever = root.When(ctx => {
+    return true;
+});
+whenever
+.On(KeySetA[0]) 
+.Do(ctx => {
+    // When PressEvent and ReleaseEvent of KeySetA[0] are given to GestureMachine,
+    // then this code will be executed.
+});
+```
   
 ## ContextManager
   
   
+```cs
+var contextManager = new SimpleContextManager();
+```
+  
 ## CallbackManager
   
+  
+```cs
+var callbackManager = new SimpleCallbackManager();
+```
   
 ## GestureMachine
   
   
----
+```cs
+var gestureMachine = new SimpleGestureMachine();
+```
   
- three types of events.
+## Physical and logical event types
   
-  
-`SimpleKeySetA`
-`SimpleKeySetB`
-`SimpleGestureMachineConfig`
-`SimpleRootElement`
-`SimpleContextManager`
-`SimpleCallbackManager`
-`SimpleGestureMachine`
-  
-#### Physical and Logical
   
   
   
