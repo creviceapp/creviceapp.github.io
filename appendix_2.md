@@ -120,7 +120,7 @@ It may be seemed strange that an event be treated as a key, but a counterpart of
 
 ## KeySet
 
-`CreviceLib` provides **KeySet** classes managing a set of sequential keys. `SimpleKeySetA` corresponds to `DoubleThrowKey` and `SimpleKeySetB` corresponds to `SingleThrowKey`. These can be used in a simply way, only take an argument `maxSize` which means the maximum size of the sequential key set.
+`CreviceLib` provides **KeySet** classes managing a set of sequential keys. `SimpleKeySetA` corresponds to `DoubleThrowKey`, and `SimpleKeySetB` corresponds to `SingleThrowKey`. These can be used in a simply way, only take an argument `maxSize` which means the maximum size of the sequential key set.
 
 ```cs
 var keysA = new SimpleKeySetA(maxSize: 10);
@@ -137,7 +137,7 @@ Assert.AreEqual(keysB[0] is PhysicalSingleThrowKey, true);
 Assert.AreEqual(keysB[0].FireEvent is FireEvent, true);
 ```
 
-_Note: Regarding the adjective **Physical** commonly held by both names of the type of `SimpleKeySetA` and `SimpleKeySetB`, see [Physical and logical event types](#physical_and_logical_event_types) for more details._
+_Note: Regarding the adjective **Physical** commonly held by both names of the type of `SimpleKeySetA` and `SimpleKeySetB`, see [Physical and logical event types](#physical-and-logical-event-types) for more details._
 
 ## GestureMachineConfig
 
