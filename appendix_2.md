@@ -152,7 +152,9 @@ config.GestureTimeout = 0; // Set GestureMachine to never timeout.
 
 ## RootElement
 
-`RootElement` is the root element of the tree of gesture DSL. You can start definition of your gestures with `When()` function.
+`RootElement<EvaluationContext, ExecutionContext>` is the root element of the tree of gesture DSL. You can start definition of your gestures with `When()` function.
+
+`SimpleRootElement` is a class which is simplified about it's generics types.
 
 ```cs
 var root = new SimpleRootElement();
@@ -169,15 +171,23 @@ whenever
 
 ## ContextManager
 
-`ContextManager` manages `ctx` in the functions like `When()`, or `Do()` on gesture DSL. If you want to change th e initialization of `EvaluationContext` or `ExecutionContext`, you can do it with this class.
+`ContextManager<EvaluationContext, ExecutionContext>` manages `ctx` in the functions like `When()`, or `Do()` on gesture DSL. If you want to change the initialization of `EvaluationContext` or `ExecutionContext`, you can do it with this class.
+
+`SimpleContextManager` is a class which is simplified about it's generics types and overrided the default initializer for `EvaluationContext` and `ExecutionContext` on `CreateEvaluateContext()` and `CreateExecutionContext()`. 
+
+_Note: You should override `CreateEvaluateContext()` and `CreateExecutionContext()` if you create a class inherits ContextManager._
 
 ## CallbackManager
 
-`CallbackManager` manages callbacks of `GestureMachine`. 
+`CallbackManager<GestureMachineConfig, ContextManager, EvaluationContext, ExecutionContext>` manages callbacks of `GestureMachine`. 
+
+`SimpleCallbackManager` is a class which is simplified about it's generics types.
 
 ## GestureMachine
 
-`GestureMachine` is the main component of `CreviceLib`. 
+`GestureMachine<GestureMachineConfig, ContextManager, EvaluationContext, ExecutionContext>` is the main component of `CreviceLib`. 
+
+`SimpleGestureMachine` is a class which is simplified about it's generics types.
 
 ## Physical and logical event types
 
