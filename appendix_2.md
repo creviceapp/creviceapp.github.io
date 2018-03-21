@@ -32,7 +32,7 @@ var whenever = root.When(ctx => {
 });
 var action = whenever.On(keys[0]);
 action.Do(ctx => {
-    // When PressEvent and ReleaseEvent of KeySetA[0] are given to GestureMachine,
+    // When PressEvent and ReleaseEvent of keysA[0] are given to GestureMachine,
     // then this code will be executed.
 });
 ```
@@ -123,18 +123,18 @@ It may be seemed strange that an event be treated as a key, but a counterpart of
 `CreviceLib` provides **KeySet** classes managing a set of sequential keys. `SimpleKeySetA` corresponds to `DoubleThrowKey` and `SimpleKeySetB` corresponds to `SingleThrowKey`. These can be used in a simply way, only take an argument `maxSize` which means the maximum size of the sequential key set.
 
 ```cs
-var keySetA = new SimpleKeySetA(maxSize: 10);
-Assert.AreEqual(keySetA is PhysicalDoubleThrowKeySet, true);
-Assert.AreEqual(keySetA[0] is PhysicalDoubleThrowKey, true);
-Assert.AreEqual(keySetA[0].PressEvent is PressEvent, true);
-Assert.AreEqual(keySetA[0].ReleaseEvent is ReleaseEvent, true);
+var keysA = new SimpleKeySetA(maxSize: 10);
+Assert.AreEqual(keysA is PhysicalDoubleThrowKeySet, true);
+Assert.AreEqual(keysA[0] is PhysicalDoubleThrowKey, true);
+Assert.AreEqual(keysA[0].PressEvent is PressEvent, true);
+Assert.AreEqual(keysA[0].ReleaseEvent is ReleaseEvent, true);
 ```
 
 ```cs
-var keySetB = new SimpleKeySetB(maxSize: 10);
-Assert.AreEqual(keySetB is PhysicalSingleThrowKeySet, true);
-Assert.AreEqual(keySetB[0] is PhysicalSingleThrowKey, true);
-Assert.AreEqual(keySetB[0].FireEvent is FireEvent, true);
+var keysB = new SimpleKeySetB(maxSize: 10);
+Assert.AreEqual(keysB is PhysicalSingleThrowKeySet, true);
+Assert.AreEqual(keysB[0] is PhysicalSingleThrowKey, true);
+Assert.AreEqual(keysB[0].FireEvent is FireEvent, true);
 ```
 
 _Note: Regarding the adjective **Physical** commonly held by both names of the type of `SimpleKeySetA` and `SimpleKeySetB`, see [Physical and logical event types](#physical_and_logical_event_types) for more details._
@@ -162,9 +162,9 @@ var whenever = root.When(ctx => {
     return true;
 });
 whenever
-.On(KeySetA[0]) 
+.On(keysA[0]) 
 .Do(ctx => {
-    // When PressEvent and ReleaseEvent of KeySetA[0] are given to GestureMachine,
+    // When PressEvent and ReleaseEvent of keysA[0] are given to GestureMachine,
     // then this code will be executed.
 });
 ```
