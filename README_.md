@@ -2336,12 +2336,19 @@ _Note: `CreviceLib` is distributed as a nuget package. Visit [NuGet Gallery \| C
   
   
   
-You should be prepared before starting to write gesture DSL. The setup code is the following:
+At first, check if the reference to `CreviceLib` is certainly added to the project.
+  
+The very simple setup code is the following:
   
 ```cs
+using Crevice.Core.Example;
+  
 var keys = new SimpleKeySetA(maxSize: 10);
-var root = new SimpleRootElement(); 
+var root = new SimpleRootElement();
+var gm = new SimpleGestureMachine();
 ```
+  
+  
   
 Then, you can be able to start writing gesture DSL.
   
@@ -2359,15 +2366,16 @@ action.Do(ctx => {
 After writing the gesture DSL, you can now run `GestureMachine`.
   
 ```cs
-var gm = new SimpleGestureMachine();
-gm.run(root);
+gm.Run(root);
 ```
   
 And finally, you should connect user input to `GestureMachine`.
   
 ```cs
-gm.input(keys[0].PressEvent);
-gm.input(keys[0].ReleaseEvent);
+// If the following events are input to `GestureMachine`,
+gm.Input(keys[0].PressEvent);
+gm.Input(keys[0].ReleaseEvent);
+// then the action will be executed here.
 ```
   
   
@@ -2499,31 +2507,25 @@ whenever
   
   
   
-```cs
-var contextManager = new SimpleContextManager();
-```
+`ContextManager` manages `ctx` in the functions like `When()`, or `Do()` on gesture DSL. If you want to change th e initialization of `EvaluationContext` or `ExecutionContext`, you can do it with this class.
   
 ## CallbackManager
   
   
   
-```cs
-var callbackManager = new SimpleCallbackManager();
-```
+`CallbackManager` manages callbacks of `GestureMachine`. 
   
 ## GestureMachine
   
   
   
-```cs
-var gestureMachine = new SimpleGestureMachine();
-```
+`GestureMachine` is the main component of `CreviceLib`. 
   
 ## Physical and logical event types
   
   
   
-  
+`CreviceLib` supports physical and logical event types, for the abstraction of multiple input devices. In contrast to `Input()` function of `GestureMachine` which only takes physical event, `On()` function in gesture DSL takes both physical and logical events. In case a logical event be given to `On()` as the arguement, and a physical event corresponding to it be given to `Input()`, `GestureMachine` will treat it correctly in their relationship on physical and logical event types.
   
   
   
