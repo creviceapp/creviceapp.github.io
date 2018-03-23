@@ -1161,7 +1161,7 @@ This event activated when the state of mouse's stroke to be changed.
   
 Type | Property Name | Description |
 -----|-----|------
-IReadOnlyList<Stroke> | Strokes | 
+IReadOnlyList\&lt;Stroke\&gt; | Strokes | 
   
 ### StateChange
   
