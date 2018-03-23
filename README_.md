@@ -68,6 +68,189 @@ The userscript file is just a C# Scripting file. You can do anything you want by
   
   
   
+# Gesture
+  
+  
+  
+## Button gesture
+  
+  
+As you may know, mouse gestures with it's buttons are called "rocker gesture" in mouse gesture utility communities. But we will call it, including gestures with keyboard keys, as **Button gesture**, **Key gesture**, or simply **Gesture** here. 
+  
+```cs
+// Button gesture.
+Chrome.
+On(Keys.RButton). // If you press mouse's right button,
+Do(ctx => // and release mouse's right button,
+{
+    // then this code will be executed.
+});
+```
+  
+```cs
+// Button gesture with two mouse buttons.
+Chrome.
+On(Keys.RButton). // If you press mouse's right button,
+On(Keys.LButton). // and press mouse's left button,
+Do(ctx => // and release mouse's left or right button,
+{
+    // then this code will be executed.
+});
+```
+  
+Even if after pressing a button or a key which means the start of a gesture, you can cancel it by holding and pressing it until it to be timeout.
+  
+```cs
+Chrome.
+On(Keys.RButton). // If you WRONGLY pressed mouse's right button,
+Do(ctx => // you hold the button until it to be timeout and release it,
+{
+    // then this code will NOT be executed.
+});
+```
+  
+This means actions declared in `Do()` clause is not assured it's execution.
+  
+Above three gestures are **Button gesture** by *the standard (double throw) buttons*. `On()` clause with standard buttons can be used for declare `Do()` clause but also `Press()` and `Release()` clauses.
+  
+_Note: See [Appendix 2. - Key](#key ) for the details about the type of keys (single throw and double throw)._
+  
+## Button gesture with Press() / Release()
+  
+  
+  
+`Do()` clause fits to many cases, but there are cases do not fit to. For example, where there is need to hook to the press or release event of a button or a key. `Press()` and `Release()` clauses fit to this case. These can be written just after `On()` clause.
+  
+```cs
+// Convert Keys.XButton1 to Keys.LWin.
+Chrome.
+On(Keys.XButton1).
+Press(ctx =>
+{
+    SendInput.ExtendedKeyDown(Keys.LWin);
+}).
+Release(ctx =>
+{
+    SendInput.ExtendedKeyUp(Keys.LWin);
+});
+```
+  
+For `Release()` clause, it can be after `Do()` clause.
+  
+```cs
+Chrome.
+On(Keys.XButton2).
+Press(ctx =>
+{
+    // Assured.
+}).
+Do(ctx =>
+{
+    // Not assured. 
+    // e.g. When the gesture to be timeout,
+    //      this action will not be executed.
+}).
+Release(ctx =>
+{
+    // Assured.
+});
+```
+  
+Actions declared in `Press()` and `Release()` clauses are different from it of `Do()` clause, the execution of these are assured.
+  
+_Note: Be careful that this conversion is incomplete. See [Convert a button or a key into an arbitrary one](#convert-a-button-or-a-key-into-an-arbitrary-one ) for more details._
+  
+## Button gesture with single throw button
+  
+  
+  
+Few of the buttons in `Keys`: `WheelUp`, `WheelDown`, `WheelLeft`, and `WheelRight`, are different from the standard ones. These are *double throw*, have only one state and only one event. So, `On()` clauses with these can not be used with `Press()` and `Release()` clauses.
+  
+```cs
+Chrome.
+On(Keys.WheelUp).
+Press(ctx => { }); // Compilation error
+```
+  
+```cs
+Chrome.
+On(Keys.WheelUp).
+Do(ctx => { }); // OK
+```
+  
+```cs
+Chrome.
+On(Keys.WheelUp).
+Release(ctx => { }); // Compilation error
+```
+  
+_Note: See [Appendix 2. - Key](#key ) for the details about the type of keys (single throw and double throw)._
+  
+##### Grammatical limitations:
+  
+  
+* `On()` clause with single state button does not have `Press()` and `Release()` functions.
+  
+Single state buttons are `Keys.WheelUp`,  `Keys.WheelDown`,  `Keys.WheelLeft`, and  `Keys.WheelRight`.
+  
+## Stroke gesture
+  
+  
+  
+"Mouse gestures by strokes", namely **Stroke gesture** is the most important part in the functions of mouse gesture utilities.
+  
+`On()` clause takes arguments that consist of combination of `Keys.MoveUp`, `Keys.MoveDown`, `Keys.MoveLeft` and `Keys.MoveRight`. These are representing directions of movements of the mouse pointer.
+  
+```cs
+Chrome.
+On(Keys.RButton). // If you press right button,
+On(Keys.MoveDown, Keys.MoveRight). // and draw stroke to down and to right by the pointer,
+Do(ctx => // and release right button,
+{
+    SendInput.Multiple().
+    ExtendedKeyDown(Keys.ControlKey).
+    ExtendedKeyDown(Keys.W).
+    ExtendedKeyUp(Keys.W).
+    ExtendedKeyUp(Keys.ControlKey).
+    Send(); // then send Ctrl+W to Chrome.
+});
+```
+  
+**Stroke gesture** represents special case when a standard button is pressed, so it have the same grammatical limitation to **Button gesture with single throw button**.
+  
+  
+```cs
+Chrome.
+On(Keys.RButton).
+On(Keys.MoveDown).
+Press(ctx => { }); // Compilation error
+```
+  
+```cs
+Chrome.
+On(Keys.RButton).
+On(Keys.MoveDown).
+Do(ctx => { }); // OK
+```
+  
+```cs
+Chrome.
+On(Keys.RButton).
+On(Keys.MoveDown).
+Release(ctx => { }); // Compilation error
+```
+  
+  
+##### Grammatical limitations:
+  
+  
+* `On()` clause with `Keys.Move*` does not have `Press()` and `Release()` functions.
+* `On()` clause with `Keys.Move*` should have `On()` caluse with standard (double throw) button as the previous context.
+* `On()` clause with `Keys.Move*` should be the last element of the sequence of `On()` clauses.
+  
+  
+  
+  
 # Gesture DSL
   
   
@@ -76,7 +259,7 @@ The userscript file is just a C# Scripting file. You can do anything you want by
   
   
   
-All gesture definition starts from `When` clause, representing the condition for the activation of a gesture. And also `When` clause is the first context of a gesture.
+All gesture definition starts from `When()` clause, representing the condition for the activation of a gesture. And also `When()` clause is the first context of a gesture.
 ```cs
 var Chrome = When(ctx =>
 {
@@ -86,13 +269,13 @@ var Chrome = When(ctx =>
   
 _Note: `ctx` is EvaluationContext, see [Core API - EvaluationContext](#evaluationcontext ) for more details._
   
-The next to `When` are `On` and `OnDecomposed` clauses.
+The next to `When()` are `On()` and `OnDecomposed()` clauses.
   
 ## On
   
   
   
-`On` clause takes a button or a sequence of stroke as it's argument. This clause can be declared successively if you needed. So, `On` clause is the second or later context of a gesture. 
+`On()` clause takes a button or a sequence of stroke as it's argument. This clause can be declared successively if you needed. So, `On()` clause is the second or later context of a gesture. 
   
 ```cs
 // Button gesture.
@@ -114,7 +297,7 @@ On(Keys.RButton). // If you press mouse's right button,
 On(Keys.MoveUp, Keys.MoveDown). // and draw stroke to up and to down by the pointer,
 ```
   
-Other than itself, this clause takes `Press`, `Do`, and `Release` clauses as the next clause. 
+Other than itself, this clause takes `Press()`, `Do()`, and `Release()` clauses as the next clause. 
   
 ```cs
 Chrome.
@@ -145,13 +328,13 @@ Release(ctx => {});
 ##### Grammatical limitations:
   
   
-* `On` and `OnDecomposed` clauses given the same button **can not** be declared on the same context. See [OnDecomposed](#ondecomposed ) for more details.
+* `On()` and `OnDecomposed()` clauses given the same button **can not** be declared on the same context. See [OnDecomposed](#ondecomposed ) for more details.
   
 ## OnDecomposed
   
   
   
-`OnDecomposed` clause takes a button as It's argument. Like `On`, `OnDecomposedOn` clause is the second or later context of a gesture, too. But, in contrast to `On` clause, this clause **can not** be declared successively, and **can not** take `Do` clause as the next clause. This clause exists for the cases that you want to simply hook the press and release events to an action. This clause takes `Press` and `Release` clauses as the next clause. These clauses will directly be connected to the action, and if a button pressed, each of all the events published while it will invoke it.
+`OnDecomposed()` clause takes a button as It's argument. Like `On()`, `OnDecomposedOn()` clause is the second or later context of a gesture, too. But, in contrast to `On()` clause, this clause **can not** be declared successively, and **can not** take `Do()` clause as the next clause. This clause exists for the cases that you want to simply hook the press and release events to an action. This clause takes `Press()` and `Release()` clauses as the next clause. These clauses will directly be connected to the action, and if a button pressed, each of all the events published while it will invoke it.
   
 ```cs
 Chrome.
@@ -181,14 +364,14 @@ OnDecomposed(Keys.RButton). // Runtime error will be thrown and warning messsage
 ##### Grammatical limitations:
   
   
-* `OnDecomposed` clause does not have `Do()` functions.
-* `On` and `OnDecomposed` clauses given the same button **can not** be declared on the same context.
+* `OnDecomposed()` clause does not have `Do()` functions.
+* `On()` and `OnDecomposed()` clauses given the same button **can not** be declared on the same context.
   
 ## Do
   
   
   
-`Do` clause declares an action which will be executed only when the conditions, given by the context it to be declared, are fully filled. `Do` clause is the last context of a gesture. 
+`Do()` clause declares an action which will be executed only when the conditions, given by the context it to be declared, are fully filled. `Do()` clause is the last context of a gesture. 
   
 ```cs
 On(Keys.RButton). // If you press mouse's right button,
@@ -204,7 +387,7 @@ _Note: `ctx` is `ExecutionContext`, see [Core API - ExecutionContext](#execution
   
   
   
-`Press` clause declares an action which will be executed only when the conditions, given by the context it to be declared, are fully filled, except for the last clause's release event. `Press` clause is the last context of a gesture. 
+`Press()` clause declares an action which will be executed only when the conditions, given by the context it to be declared, are fully filled, except for the last clause's release event. `Press()` clause is the last context of a gesture. 
   
 ```cs
 On(Keys.RButton). // If you press mouse's right button,
@@ -220,7 +403,7 @@ _Note: `ctx` is `ExecutionContext`, see [Core API - ExecutionContext](#execution
   
   
   
-`Release` clause declares an action which will be executed only when the conditions, given by the context it to be declared, are fully filled. `Release` clause is the last context of a gesture. 
+`Release()` clause declares an action which will be executed only when the conditions, given by the context it to be declared, are fully filled. `Release()` clause is the last context of a gesture. 
   
 ```cs
 On(Keys.RButton). // If you press mouse's right button,
@@ -232,179 +415,6 @@ Release(ctx => // and release mouse's right button,
   
 _Note: `ctx` is `ExecutionContext`, see [Core API - ExecutionContext](#executioncontext ) for more details._
   
-## Button gesture
-  
-  
-As you may know, mouse gestures with it's buttons are called "rocker gesture" in mouse gesture utility communities. But we call it, including it with keyboard's keys, simply `Button gesture` here. 
-  
-```cs
-// Button gesture.
-Chrome.
-On(Keys.RButton). // If you press mouse's right button,
-Do(ctx => // and release mouse's right button,
-{
-    // then this code will be executed.
-});
-```
-  
-```cs
-// Button gesture with two buttons.
-Chrome.
-On(Keys.RButton). // If you press mouse's right button,
-On(Keys.LButton). // and press mouse's left button,
-Do(ctx => // and release mouse's left or right button,
-{
-    // then this code will be executed.
-});
-```
-  
-Even if after pressing a button which means the start of a gesture, you can cancel it by holding the button pressing until it to be timeout.
-  
-```cs
-Chrome.
-On(Keys.RButton). // If you WRONGLY pressed mouse's right button,
-Do(ctx => // you hold the button until it to be timeout and release it,
-{
-    // then this code will NOT be executed.
-});
-```
-  
-This means actions declared in `Do` clause is not assured it's execution.
-  
-Above three gestures are `Button gesture` by the standard buttons. `On` clause with standard buttons can be used for declare `Do` clause but also `Press` and `Release` clauses.
-  
-### Button gesture with Press/Release
-  
-  
-  
-`Do` clause is just simple but there are cases do not fit to use it. For example, where there is need to hook to the press or release event of a button. `Press` and `Release` clauses fit to this case. These can be written just after `On` clause.
-  
-```cs
-// Convert Keys.XButton1 to Keys.LWin.
-Chrome.
-On(Keys.XButton1).
-Press(ctx =>
-{
-    SendInput.ExtendedKeyDown(Keys.LWin);
-}).
-Release(ctx =>
-{
-    SendInput.ExtendedKeyUp(Keys.LWin);
-});
-```
-  
-For `Release` clause, it can be after `Do` clause.
-  
-```cs
-Chrome.
-On(Keys.XButton2).
-Press(ctx =>
-{
-    // Assured.
-}).
-Do(ctx =>
-{
-    // Not assured. 
-    // e.g. When the gesture to be timeout,
-    //      this action will not be executed.
-}).
-Release(ctx =>
-{
-    // Assured.
-});
-```
-  
-Actions declared in `Press` and `Release` clauses are different from it of `Do` clause, the execution of these are assured.
-  
-_Note: Be careful that this conversion is incomplete. See [Convert a button into an arbitrary button](#convert-a-button-into-an-arbitrary-button ) for more details._
-  
-### Button gesture with single state button
-  
-  
-  
-Few of the buttons in `Keys` are different from the standard buttons; these have only one state, and only one event. So, `On` clauses with these can not be used with `Press` and `Release` clauses.
-  
-```cs
-Chrome.
-On(Keys.WheelUp).
-Press(ctx => { }); // Compilation error
-```
-  
-```cs
-Chrome.
-On(Keys.WheelUp).
-Do(ctx => { }); // OK
-```
-  
-```cs
-Chrome.
-On(Keys.WheelUp).
-Release(ctx => { }); // Compilation error
-```
-  
-  
-##### Grammatical limitations:
-  
-  
-* `On` clause with single state button does not have `Press()` and `Release()` functions.
-  
-Single state buttons are `Keys.WheelUp`,  `Keys.WheelDown`,  `Keys.WheelLeft`, and  `Keys.WheelRight`.
-  
-## Stroke gesture
-  
-  
-  
-"Mouse gestures by strokes", namely `Stroke gesture` is the most important part in the functions of mouse gesture utilities.
-  
-`On` clause takes arguments that consist of combination of `Keys.MoveUp`, `Keys.MoveDown`, `Keys.MoveLeft` and `Keys.MoveRight`. These are representing directions of movements of the mouse pointer.
-  
-```cs
-Chrome.
-On(Keys.RButton). // If you press right button,
-On(Keys.MoveDown, Keys.MoveRight). // and draw stroke to down and to right by the pointer,
-Do(ctx => // and release right button,
-{
-    SendInput.Multiple().
-    ExtendedKeyDown(Keys.ControlKey).
-    ExtendedKeyDown(Keys.W).
-    ExtendedKeyUp(Keys.W).
-    ExtendedKeyUp(Keys.ControlKey).
-    Send(); // then send Ctrl+W to Chrome.
-});
-```
-  
-`Stroke gesture` represents special case when a standard button is pressed, so it have the same grammatical limitation to `Button gesture with single state button`.
-  
-  
-```cs
-Chrome.
-On(Keys.RButton).
-On(Keys.MoveDown).
-Press(ctx => { }); // Compilation error
-```
-  
-```cs
-Chrome.
-On(Keys.RButton).
-On(Keys.MoveDown).
-Do(ctx => { }); // OK
-```
-  
-```cs
-Chrome.
-On(Keys.RButton).
-On(Keys.MoveDown).
-Release(ctx => { }); // Compilation error
-```
-  
-  
-##### Grammatical limitations:
-  
-  
-* `On` clause with `Keys.Move*` does not have `Press()` and `Release()` functions.
-* `On` clause with `Keys.Move*` should have `Button gesture` by standard button as the previous context.
-* `On` clause with `Keys.Move*` should be the last element of the sequence of `On` clauses.
-  
   
   
   
@@ -412,7 +422,7 @@ Release(ctx => { }); // Compilation error
   
   
   
-C# Scripting is a powerful and flexible scripting feature provided by [Microsoft Roslyn](https://github.com/dotnet/roslyn ). It designed to make scripts you cut and pasted from C# code work as-is. So, you can build your own gesture environment easily just only with a little of knowledge of C# language. But C# Scripting has only a few special feature C# language does not have. The following section is the introduction of the features very useful if you know it when you need to do it.
+C# Scripting is a powerful and flexible scripting feature provided by [Microsoft Roslyn](https://github.com/dotnet/roslyn ). It designed to make scripts you cut and pasted from C# code work as-is. So, you can build your own gesture environment easily just only with a little of knowledge of C# language. But C# Scripting has only a few special feature C# language does not have. The following sections are the introduction of the features very useful if you know it when you need to do it.
   
 ## #r directive
   
@@ -447,6 +457,77 @@ You can load the content in another C# Scripting file by `#load` directive.
 _Note : This directive should be placed on the top of your C# Scripting code except for `#r` directive._
   
   
+## Tutorial of C# Language
+  
+  
+  
+There are a lot of good tutorial of C# language. You can choose ones you like to learn it. The followings are just an example:
+  
+<a href="https://docs.microsoft.com/en-us/dotnet/csharp/quick-starts/"><img title="C# interactive tutorials - C# quickstarts | Microsoft Docs" src="images/docs.microsoft.com_en-us_dotnet_csharp_quick-starts.png" alt="https://docs.microsoft.com/en-us/dotnet/csharp/quick-starts/" width="400" /></a>
+<div class="img-caption"><a href="https://docs.microsoft.com/en-us/dotnet/csharp/quick-starts/">C# interactive tutorials - C# quickstarts | Microsoft Docs</a></div>
+  
+<a class="img-caption" href="http://www.learncs.org/"><img title="Learn C# - Free Interactive C# Tutorial" src="images/www.learncs.org.png" alt="http://www.learncs.org/" width="400" /></a>
+<div class="img-caption"><a href="http://www.learncs.org/">Learn C#</a></div>
+  
+<a class="img-caption" href="https://www.sololearn.com/Course/CSharp/"><img title="C# Tutorial | SoloLearn: Learn to code for FREE!" src="images/www.sololearn.com_course_csharp.png" alt="https://www.sololearn.com/Course/CSharp/" width="400" /></a>
+<div class="img-caption"><a href="https://www.sololearn.com/Course/CSharp/">C# Tutorial | SoloLearn</a></div>
+  
+<a class="img-caption" href="https://www.tutorialspoint.com/csharp/index.htm"><img title="C# Tutorial" src="images/www.tutorialspoint.com_csharp.png" alt="https://www.tutorialspoint.com/csharp/index.htm" width="400" /></a>
+<div class="img-caption"><a href="https://www.tutorialspoint.com/csharp/index.htm">C# Tutorial | TutorialsPoint</a></div>
+  
+<a class="img-caption" href="https://mva.microsoft.com/en-US/training-courses/c-fundamentals-for-absolute-beginners-16169?l=Lvld4EQIC_2706218949"><img title="Learn C# for Beginners – Microsoft Virtual Academy" src="images/mva.microsoft.com_en-us_training-courses.png" alt="https://mva.microsoft.com/en-US/training-courses/c-fundamentals-for-absolute-beginners-16169?l=Lvld4EQIC_2706218949" width="400" /></a>
+<div class="img-caption"><a href="https://mva.microsoft.com/en-US/training-courses/c-fundamentals-for-absolute-beginners-16169?l=Lvld4EQIC_2706218949">Learn C# for Beginners | Microsoft Virtual Academy</a></div>
+  
+<a class="img-caption" href="https://docs.microsoft.com/en-us/dotnet/csharp/"><img title="C# Guide | Microsoft Docs" src="images/docs.microsoft.com_en-us_dotnet_csharp.png" alt="https://docs.microsoft.com/en-us/dotnet/csharp/" width="400" /></a>
+<div class="img-caption"><a href="https://docs.microsoft.com/en-us/dotnet/csharp/">C# Guide | Microsoft Docs</a></div>
+  
+  
+  
+  
+# Edit user script
+  
+  
+  
+Once open your user script with a text editor, you can edit it whenever you like, and the changes given will be reflect immediately as mentioned before with **hot reloading** feature.
+  
+  
+// image of editing with hot reloading feature
+  
+## Debugging with Console
+  
+  
+  
+Crevice4 supports `--verbose` option which means output detail informations to console: see [Command line interface](#command-line-interface ) for the details.
+  
+When crevice4 starts with `--verbose` option, invocation of functions like `Console.WriteLine()` in the user script will be activated and the messages will be printed to console.
+  
+```bat
+> crevice4.exe --verbose
+```
+  
+// image
+  
+  
+## Edit user script with Visual Studio Code
+  
+  
+  
+Simple text editors can do this, but IDE which supports IntelliSense is very helpful. Cevice4 provides IDE integrate feature. 
+  
+### Install Visual Studio Code
+  
+  
+### Install C# plugin
+  
+  
+### Install IDESupport files
+  
+  
+  
+  
+  
+  
+  
   
   
 # Practical example
@@ -468,7 +549,7 @@ Do(ctx =>
   
 But `UnicodeKeyStroke` method is slow. So if there is no need to use it, you should better to do it with `Clipboard` and Ctrl+V method. See [Paste text message](#paste-text-message ).
   
-## Paste text message
+## Paste text message with clipboard
   
   
   
@@ -490,7 +571,7 @@ Do(ctx =>
 ```
 _Note: To use `Clipboard`, you should declare loading namespace `System.Windows.Forms` by **using** statement._
   
-## Convert a button into an arbitrary button
+## Convert a button or a key into an arbitrary one
   
   
   
@@ -550,6 +631,34 @@ DeclareProfile("Other");
 ```
   
 See [Profile](#profile ) for more details.
+  
+## Use Win32 API
+  
+  
+  
+You can use Win32 APIs simply importing it.
+  
+```cs
+[DllImport("winmm.dll")]
+public static extern uint timeGetTime();
+  
+uint lastExecutionTime = 0;
+```
+  
+```cs
+Do(ctx => 
+{
+    var current = timeGetTime();
+    Console.WriteLine($"Time passed from last execution: {lastExecutionTime - current}");
+    lastExecutionTime = current;
+});
+```
+  
+##### References:
+  
+  
+ [DllImportAttribute Class (System.Runtime.InteropServices)](https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.dllimportattribute%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396 ) 
+[pinvoke.net: the interop wiki!](https://www.pinvoke.net/ )
   
 ## Change the state of window
   
@@ -617,11 +726,11 @@ Do(ctx =>
   
 There are more a lot of numbers of parameters can be used for operate the window. See [WM\_SYSCOMMAND message](https://msdn.microsoft.com/library/windows/desktop/ms646360%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396 ) for more details.
   
-## Change gesture behavior by modifier key
+## Change gesture behavior by modifier keys
   
   
   
-In this case, you can use keyboard's modifier key for declaring the gesture definition, but there is one problem. Gesture definition can only be declared with **ordered** `On` clauses. For example, for a gesture definition takes two modifier keys as it's modifier, you should declare the gesture definition with all pattern of the combination of modifier keys.
+In this case, you can use keyboard's modifier keys for declaring the gesture definition, but there is one problem. Gesture definition can only be declared with **ordered** `On` clauses. For example, for a gesture definition takes two modifier keys as it's modifier, you should declare the gesture definition with all pattern of the combination of modifier keys.
   
 ```cs
 // Pattern 1/2.
@@ -947,13 +1056,6 @@ Do(ctx =>
 ```
   
 Also, it is difficult to only perform wheel click on these devices. You can solve this problem by assigning wheel click to an arbitrary gesture.
-  
-  
-  
-  
-# Edit user script by Visual Studio Code
-  
-  
   
   
   

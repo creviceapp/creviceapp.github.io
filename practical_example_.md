@@ -16,7 +16,7 @@ Do(ctx =>
   
 But `UnicodeKeyStroke` method is slow. So if there is no need to use it, you should better to do it with `Clipboard` and Ctrl+V method. See [Paste text message](#paste-text-message ).
   
-## Paste text message
+## Paste text message with clipboard
   
   
 ```cs
@@ -37,7 +37,7 @@ Do(ctx =>
 ```
 _Note: To use `Clipboard`, you should declare loading namespace `System.Windows.Forms` by **using** statement._
   
-## Convert a button into an arbitrary button
+## Convert a button or a key into an arbitrary one
   
   
 You can use `Keys.XButton1` as `Keys.Lwin` by the following code.
@@ -95,6 +95,32 @@ DeclareProfile("Other");
 ```
   
 See [Profile](#profile ) for more details.
+  
+## Use Win32 API
+  
+  
+You can use Win32 APIs simply importing it.
+  
+```cs
+[DllImport("winmm.dll")]
+public static extern uint timeGetTime();
+  
+uint lastExecutionTime = 0;
+```
+  
+```cs
+Do(ctx => 
+{
+    var current = timeGetTime();
+    Console.WriteLine($"Time passed from last execution: {lastExecutionTime - current}");
+    lastExecutionTime = current;
+});
+```
+  
+##### References:
+  
+ [DllImportAttribute Class (System.Runtime.InteropServices)](https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.dllimportattribute%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396 ) 
+[pinvoke.net: the interop wiki!](https://www.pinvoke.net/ )
   
 ## Change the state of window
   
@@ -156,10 +182,10 @@ Do(ctx =>
   
 There are more a lot of numbers of parameters can be used for operate the window. See [WM\_SYSCOMMAND message](https://msdn.microsoft.com/library/windows/desktop/ms646360%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396 ) for more details.
   
-## Change gesture behavior by modifier key
+## Change gesture behavior by modifier keys
   
   
-In this case, you can use keyboard's modifier key for declaring the gesture definition, but there is one problem. Gesture definition can only be declared with **ordered** `On` clauses. For example, for a gesture definition takes two modifier keys as it's modifier, you should declare the gesture definition with all pattern of the combination of modifier keys.
+In this case, you can use keyboard's modifier keys for declaring the gesture definition, but there is one problem. Gesture definition can only be declared with **ordered** `On` clauses. For example, for a gesture definition takes two modifier keys as it's modifier, you should declare the gesture definition with all pattern of the combination of modifier keys.
   
 ```cs
 // Pattern 1/2.
