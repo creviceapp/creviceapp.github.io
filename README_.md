@@ -1097,15 +1097,15 @@ The system default parameters can be configured by using `Config` as following:
   
   
 ```cs
-// When moved distance of the cursor is exceeded this value, the first stroke 
+// When moved distance of the cursor exceeds this value, the first stroke 
 // will be established.
 Config.Core.StrokeStartThreshold = 10;
   
-// When moved distance of the cursor is exceeded this value, and the direction is changed,
+// When moved distance of the cursor exceeds this value, and the direction is changed,
 // new stroke for new direction will be established.
 Config.Core.StrokeDirectionChangeThreshold = 20;
   
-// When moved distance of the cursor is exceeded this value, and the direction is not changed, 
+// When moved distance of the cursor exceeds this value, and the direction is not changed, 
 // it will be extended.
 Config.Core.StrokeExtensionThreshold = 10;
   
@@ -2338,7 +2338,7 @@ _Note: `CreviceLib` is distributed as a nuget package. Visit [NuGet Gallery \| C
   
 At first, check if the reference to `CreviceLib` is certainly added to your project.
   
-The very simple setup code is the following:
+A bit simplified, but sufficiently practical classes are provided in `Crevice.Core.Example`. The very simple setup code is the following:
   
 ```cs
 using Crevice.Core.Example;
@@ -2347,8 +2347,6 @@ var keys = new SimpleKeySetA(maxSize: 10);
 var root = new SimpleRootElement();
 var gm = new SimpleGestureMachine();
 ```
-  
-  
   
 Then, you can be able to start writing gesture DSL.
   
@@ -2378,6 +2376,11 @@ gm.Input(keys[0].ReleaseEvent);
 // then the action will be executed here.
 ```
   
+After using it, it should be disposed.
+  
+```cs
+gm.Dispose();
+```
   
 ## Key
   
@@ -2410,6 +2413,7 @@ gm.Input(keys[0].ReleaseEvent);
     ]
 }
 ```
+<div class="img-caption">Fig4. KeyA.</div>
   
 **KeyB** is used only in a few cases, have an only event, `FireEvent`. 
   
@@ -2424,6 +2428,7 @@ gm.Input(keys[0].ReleaseEvent);
     ]
 }
 ```
+<div class="img-caption">Fig5. KeyB.</div>
   
 ### The difference between KeyA and KeyB
   
@@ -2447,12 +2452,15 @@ It may be seemed strange that an event be treated as a key, but a counterpart of
     ]
 }
 ```
+<div class="img-caption">Fig6. Image of the compression KeyA to KeyB.</div>
   
 ## KeySet
   
   
   
-`CreviceLib` provides **KeySet** classes managing a set of sequential keys. `SimpleKeySetA` corresponds to `DoubleThrowKey`, and `SimpleKeySetB` corresponds to `SingleThrowKey`. These can be used in a simply way, only take an argument `maxSize` which means the maximum size of the sequential key set.
+`CreviceLib` provides **KeySet** classes, which inherit `Crevice.Core.Keys.KeySet<KeyType>`, managing a set of sequential keys of **KeyA** (`DoubleThrowKey`) or **KeyB** (`SingleThrowKey`). 
+  
+`SimpleKeySetA` corresponds to **KeyA**, and `SimpleKeySetB` corresponds to **KeyB**. These can be used in a simply way, only take an argument `maxSize` which means the maximum size of the sequential key set.
   
 ```cs
 var keysA = new SimpleKeySetA(maxSize: 10);
@@ -2475,22 +2483,88 @@ _Note: Regarding the adjective **Physical** commonly held by both names of the t
   
   
   
-`GestureMachineConfig` holds configuration values for `GestureMachine`. The configuration values are so mutable that you can edit it if you want any time. Also you can use newly customized `GestureMachineConfig` by inheriting it.
+`Crevice.Core.FSM.GestureMachineConfig` holds configuration values for `GestureMachine`. The configuration values are so mutable that you can edit it any time. Also you can use newly customized `GestureMachineConfig` by inheriting it.
   
-`SimpleGestureMachineConfig` is a example class, which inherits `GestureMachineConfig` and do not have any change to it.
+`SimpleGestureMachineConfig` is a example class which inherits `GestureMachineConfig`, and do not have any change from it.
   
 ```cs
 var config = new SimpleGestureMachineConfig();
-config.GestureTimeout = 0; // Set GestureMachine to never timeout.
 ```
+  
+Available properties are the following:
+  
+```cs
+// When moved distance of the cursor exceeds this value, the first stroke 
+// will be established.
+config.StrokeStartThreshold = 10;
+  
+// When moved distance of the cursor exceeds this value, and the direction is changed,
+// new stroke for new direction will be established.
+config.StrokeDirectionChangeThreshold = 20;
+  
+// When moved distance of the cursor exceeds this value, and the direction is not changed, 
+// it will be extended.
+config.StrokeExtensionThreshold = 10;
+  
+// Interval time for updating strokes.
+config.WatchInterval = 10; // ms
+  
+// When stroke is not established and this period of time has passed, 
+// the gesture will be canceled and the original click event will be reproduced.
+config.GestureTimeout = 1000; // ms
+```
+  
+_Note: If you want to use customized `GestureMachineConfig`, it should be given as the generics type parameter to classes which extend these classes: [CallbackManager](#callbackmanager ), and [GestureMachine](#gesturemachine )._
+  
+## EvaluationContext
+  
+  
+  
+`Crevice.Core.Context.EvaluationContext` is a class to be passed to a function which declared with `When()` on gesture DSL, as the argument. By default, it is empty and does not have any value. You can inherits and extends this class so that values you need will be given to `Evaluator` on it's evaluation.
+  
+```cs
+public class OriginalEvaluationContext : EvaluationContext
+{
+    public readonly DateTime Created;
+  
+    public EvaluationContext()
+    {
+        Created = System.DateTime.Now;
+    }
+}
+```
+  
+_Note: If you want to use customized `EvaluationContext`, it should be given as the generics type parameter to classes which extend these classes: [RootElement](#rootelement ), [ContextManager](#contextmanager ), [CallbackManager](#callbackmanager ), and [GestureMachine](#gesturemachine )._
+  
+## ExecutionContext
+  
+  
+  
+`Crevice.Core.Context.ExecutionContext` is a class to be passed to a function which declared with `Press()`, `Do()`, and `Release()` on gesture DSL, as the argument. By default, it is empty and does not have any value. You can inherits and extends this class so that values you need will be given to `Executor` on it's evaluation.
+  
+```cs
+public class OriginalExecutionContext : ExecutionContext
+{
+    public readonly DateTime Created;
+    public readonly OriginalEvaluationContext EvaluationContext;
+  
+    public EvaluationContext(OriginalEvaluationContext evaluationContext)
+    {
+        Created = System.DateTime.Now;
+        EvaluationContext = evaluationContext;
+    }
+}
+```
+  
+_Note: If you want to use customized `ExecutionContext`, it should be given as the generics type parameter to classes which extend these classes: [RootElement](#rootelement ), [ContextManager](#contextmanager ), [CallbackManager](#callbackmanager ), and [GestureMachine](#gesturemachine )._
   
 ## RootElement
   
   
   
-`RootElement<EvaluationContext, ExecutionContext>` is the root element of the tree of gesture DSL. You can start definition of your gestures with `When()` function.
+`Crevice.Core.DSL.RootElement<EvaluationContext, ExecutionContext>` is the root element of the tree of gesture DSL. You can start definiting of your gestures with `When()` function. See [Gesture DSL](#gesture-dsl ) for more details about it.
   
-`SimpleRootElement` is a class which is simplified about it's generics types.
+`SimpleRootElement` is a class which is simplified about it's generics types, and is able to be created without generics parameters.
   
 ```cs
 var root = new SimpleRootElement();
@@ -2509,27 +2583,77 @@ whenever
   
   
   
-`ContextManager<EvaluationContext, ExecutionContext>` manages `ctx` in the functions like `When()`, or `Do()` on gesture DSL. If you want to change the initialization of `EvaluationContext` or `ExecutionContext`, you can do it with this class.
+`Crevice.Core.Context.ContextManager<EvaluationContext, ExecutionContext>` manages `ctx` in the functions like `When()`, or `Do()` on gesture DSL. If you want to initialize `EvaluationContext` or `ExecutionContext` in your own way, you can do it with inheriting and extending this class.
   
-`SimpleContextManager` is a class which is simplified about it's generics types and overrided the default initializer for `EvaluationContext` and `ExecutionContext` on `CreateEvaluateContext()` and `CreateExecutionContext()`. 
+```cs
+public class OriginalContextManager : ContextManager<OriginalEvaluationContext, OriginalExecutionContext>
+{
+    public override OriginalEvaluationContext CreateEvaluateContext()
+        => // Initialization code for `OriginalEvaluationContext`.
   
-_Note: You should override `CreateEvaluateContext()` and `CreateExecutionContext()` if you create a class inherits ContextManager._
+    public override OriginalExecutionContext CreateExecutionContext(OriginalEvaluationContext evaluationContext)
+        => // Initialization code for `OriginalExecutionContext`.
+}
+```
+  
+`SimpleContextManager` is a class which is simplified about it's generics types, is able to be created without generics parameters, and is overrided the default initializer for `EvaluationContext` and `ExecutionContext`. 
+  
+```cs
+var contextManager = new SimpleContextManager();
+```
+  
+_Note1: You should override `CreateEvaluateContext()` and `CreateExecutionContext()` if you create a class inherits ContextManager, or else these functions throw an `NotImplementedException`._
+  
+_Note2: If you want to use customized `ContextManager`, it should be given as the generics type parameter to classes which extend these classes: [CallbackManager](#callbackmanager ), and [GestureMachine](#gesturemachine )._
   
 ## CallbackManager
   
   
   
-`CallbackManager<GestureMachineConfig, ContextManager, EvaluationContext, ExecutionContext>` manages callbacks of `GestureMachine`. 
+`Crevice.Core.Callback.CallbackManager<GestureMachineConfig, ContextManager, EvaluationContext, ExecutionContext>` manages callbacks of `GestureMachine`. 
   
-`SimpleCallbackManager` is a class which is simplified about it's generics types.
+`SimpleCallbackManager` is a class which is simplified about it's generics types, and is able to be created without generics parameters.
+  
+  
+```cs
+var callbackManager = new SimpleCallbackManager();
+```
+  
+Avaliable event properties are the following:
+  
+```cs
+callbackManager.StrokeReset += (sender, e) { };
+callbackManager.StrokeUpdate += (sender, e) { };
+callbackManager.StateChange += (sender, e) { };
+callbackManager.GestureCancel += (sender, e) { };
+callbackManager.GestureTimeout += (sender, e) { };
+callbackManager.MachineStart += (sender, e) { };
+callbackManager.MachineReset += (sender, e) { };
+callbackManager.MachineStop += (sender, e) { };
+```
+  
+See [Config - Events](#events ) for the details.
   
 ## GestureMachine
   
   
   
-`GestureMachine<GestureMachineConfig, ContextManager, EvaluationContext, ExecutionContext>` is the main component of `CreviceLib`. 
+`Crevice.Core.FSM.GestureMachine<GestureMachineConfig, ContextManager, EvaluationContext, ExecutionContext>` is the main component of `CreviceLib`. 
   
-`SimpleGestureMachine` is a class which is simplified about it's generics types.
+`SimpleGestureMachine` is a class which is simplified about it's generics types, and is able to be created without generics parameters.
+  
+```cs
+var keysA = new SimpleKeySetA(maxSize: 10);
+var root = new SimpleRootElement();
+var gm = new SimpleGestureMachine();
+gm.Run(root);
+gm.Input(keysA[0].PressEvent);
+gm.Input(keysA[0].ReleaseEvent);
+// ...snip...
+gm.Dispose();
+```
+  
+_Note: This class is `IDisposable` so it should be disposed by calling `Dispose()` after using it._
   
 ## Physical and logical event types
   

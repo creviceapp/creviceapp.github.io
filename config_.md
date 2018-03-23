@@ -7,15 +7,15 @@ The system default parameters can be configured by using `Config` as following:
 ## Values
   
 ```cs
-// When moved distance of the cursor is exceeded this value, the first stroke 
+// When moved distance of the cursor exceeds this value, the first stroke 
 // will be established.
 Config.Core.StrokeStartThreshold = 10;
   
-// When moved distance of the cursor is exceeded this value, and the direction is changed,
+// When moved distance of the cursor exceeds this value, and the direction is changed,
 // new stroke for new direction will be established.
 Config.Core.StrokeDirectionChangeThreshold = 20;
   
-// When moved distance of the cursor is exceeded this value, and the direction is not changed, 
+// When moved distance of the cursor exceeds this value, and the direction is not changed, 
 // it will be extended.
 Config.Core.StrokeExtensionThreshold = 10;
   
