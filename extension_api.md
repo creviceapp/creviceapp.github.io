@@ -19,8 +19,8 @@ System.Drawing.Point | GetLogicalCursorPos() | Returns logical cursor position c
 System.Drawing.Point | GetPhysicalCursorPos() | A shortcut to win32 API `GetPhysicalCursorPos()`.
 WindowInfo | WindowFromPoint(Point point) | Returns a window under the cursor.
 WindowInfo | FindWindow(string lpClassName, string lpWindowName) | Find a window matches given class name and window name.
-IReadOnlyList\<WindowInfo\> | GetTopLevelWindows() | Enumerates all windows.
-IReadOnlyList\<WindowInfo\> | GetThreadWindows(int threadId) | Enumerates all windows belonging specified thread.
+IReadOnlyList&lt;WindowInfo&gt; | GetTopLevelWindows() | Enumerates all windows.
+IReadOnlyList&lt;WindowInfo&gt; | GetThreadWindows(int threadId) | Enumerates all windows belonging specified thread.
 
 ## VirtualKeys
 

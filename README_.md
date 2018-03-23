@@ -1161,7 +1161,7 @@ This event activated when the state of mouse's stroke to be changed.
   
 Type | Property Name | Description |
 -----|-----|------
-IReadOnlyList\<Stroke\> | Strokes | 
+IReadOnlyList<Stroke> | Strokes | 
   
 ### StateChange
   
@@ -1335,9 +1335,9 @@ bool | PostMessage(int Msg, int wParam, int lParam) | A shortcut to win32 API `P
 bool | BringWindowToTop() | A shortcut to win32 API `BringWindowToTop(WindowHandle)`.
 WindowInfo | FindWindowEx(IntPtr hwndChildAfter, string lpszClass, string lpszWindow) | A shortcut to win32 API `FindWindowEx(WindowHandle, hwndChildAfter, lpszClass, lpszWindow)`. 
 WindowInfo | FindWindowEx(string lpszClass, string lpszWindow) | A shortcut to win32 API `FindWindowEx(WindowHandle, IntPtr.Zero, lpszClass, lpszWindow)`.
-IReadOnlyList\<WindowInfo\> | GetChildWindows() | A shortcut to win32 API `EnumChildWindows(WindowHandle, EnumWindowProc, IntPtr.Zero)`.
-IReadOnlyList\<WindowInfo\> |  GetPointedDescendantWindows(Point point, Window.WindowFromPointFlags flags) | A shortcut to win32 API `ChildWindowFromPointEx(hWnd, point, flags)`. This function recursively calls `ChildWindowFromPointEx` until reach to the last descendant window.
-IReadOnlyList\<WindowInfo\> | GetPointedDescendantWindows(Point point) | A shortcut to win32 API `ChildWindowFromPointEx(hWnd, point, Window.WindowFromPointFlags.CWP_ALL)`. This function recursively calls `ChildWindowFromPointEx` until reach to the last descendant window.
+IReadOnlyList&lt;WindowInfo&gt; | GetChildWindows() | A shortcut to win32 API `EnumChildWindows(WindowHandle, EnumWindowProc, IntPtr.Zero)`.
+IReadOnlyList&lt;WindowInfo&gt; |  GetPointedDescendantWindows(Point point, Window.WindowFromPointFlags flags) | A shortcut to win32 API `ChildWindowFromPointEx(hWnd, point, flags)`. This function recursively calls `ChildWindowFromPointEx` until reach to the last descendant window.
+IReadOnlyList&lt;WindowInfo&gt; | GetPointedDescendantWindows(Point point) | A shortcut to win32 API `ChildWindowFromPointEx(hWnd, point, Window.WindowFromPointFlags.CWP_ALL)`. This function recursively calls `ChildWindowFromPointEx` until reach to the last descendant window.
 void | Activate() | Brings window into the foreground and activates the window.
   
 And, you can use a static utility class `Window` for accessing and manipulating a window. See [Extension API - Window](#window ) for more details.
@@ -1572,8 +1572,8 @@ System.Drawing.Point | GetLogicalCursorPos() | Returns logical cursor position c
 System.Drawing.Point | GetPhysicalCursorPos() | A shortcut to win32 API `GetPhysicalCursorPos()`.
 WindowInfo | WindowFromPoint(Point point) | Returns a window under the cursor.
 WindowInfo | FindWindow(string lpClassName, string lpWindowName) | Find a window matches given class name and window name.
-IReadOnlyList\<WindowInfo\> | GetTopLevelWindows() | Enumerates all windows.
-IReadOnlyList\<WindowInfo\> | GetThreadWindows(int threadId) | Enumerates all windows belonging specified thread.
+IReadOnlyList&lt;WindowInfo&gt; | GetTopLevelWindows() | Enumerates all windows.
+IReadOnlyList&lt;WindowInfo&gt; | GetThreadWindows(int threadId) | Enumerates all windows belonging specified thread.
   
 ## VirtualKeys
   
@@ -2052,7 +2052,7 @@ Property Name | Value | Description
  - | 0xC1-D7 | Reserved
  - | 0xD8-DA | Unassigned
  VK_OEM_4 | 0xDB | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
- VK_OEM_5 | 0xDC | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
+ VK_OEM_5 | 0xDC | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '&#x5c;&#x7c;' key
  VK_OEM_6 | 0xDD | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
  VK_OEM_7 | 0xDE | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
  VK_OEM_8 | 0xDF | Used for miscellaneous characters; it can vary by keyboard.

@@ -387,7 +387,7 @@ Property Name | Value | Description
  - | 0xC1-D7 | Reserved
  - | 0xD8-DA | Unassigned
  VK_OEM_4 | 0xDB | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key
- VK_OEM_5 | 0xDC | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\|' key
+ VK_OEM_5 | 0xDC | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '&#x5c;&#x7c;' key
  VK_OEM_6 | 0xDD | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key
  VK_OEM_7 | 0xDE | Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key
  VK_OEM_8 | 0xDF | Used for miscellaneous characters; it can vary by keyboard.
