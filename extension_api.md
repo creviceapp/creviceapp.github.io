@@ -9,7 +9,7 @@ To use this class, declare as following:
 using Crevice.WinAPI.Window;
 ```
 
-### Methods {ignore=true}
+##### Methods {ignore=true}
 
 Return Value | Method Definition | Description
 -----|-----|-----
@@ -54,7 +54,7 @@ using Crevice.WinAPI.CoreAudio;
 var VolumeControl = new VolumeControl();
 ```
 
-### Methods {ignore=true}
+##### Methods {ignore=true}
 
 Return Value | Method Definition | Description
 -----|-----|-----

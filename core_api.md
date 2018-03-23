@@ -5,7 +5,7 @@
 
 `Crevice.GestureMachine.EvaluationContext` have following properties:
 
-### Properties {ignore=true}
+##### Properties {ignore=true}
 
 Type | Property Name | Description |
 -----|-----|-----|
@@ -19,7 +19,7 @@ These values are guaranteed that same values are provided as `ExecutionContext`'
 
 `Crevice.GestureMachine.ExecutionContext` have following properties:
 
-### Properties {ignore=true}
+##### Properties {ignore=true}
 
 Type | Property Name | Description |
 -----|-----|-----|
@@ -34,7 +34,7 @@ These values, except for `GestureEndPosition`, are guaranteed that same values a
 
 `Crevice.GestureMachine.GestureMachineProfile` have following properties:
 
-### Properties {ignore=true}
+##### Properties {ignore=true}
 Type | Property Name | Description
 -----|-----|------
 RootElement | RootElement
@@ -46,7 +46,7 @@ string | ProfileName
 
 `WindowInfo` is a thin wrapper of the handle of a window. This class provides properties and methods to use window handles more easily.
 
-### Properties {ignore=true}
+##### Properties {ignore=true}
 
 Type | Property Name | Description |
 -----|-----|-----|
@@ -60,7 +60,7 @@ WindowInfo | Parent | `WindowInfo` of window's parent window.
 string | ModulePath | Window's module path.
 string | ModuleName | Window's module name.
 
-### Methods {ignore=true}
+##### Methods {ignore=true}
 
 Return Value | Method Definition | Description |
 -----|-----|-----|
@@ -183,7 +183,7 @@ Extended & ScanCode | ExtendedKeyUpWithScanCode(int keyCode)
 Tooltip("This is tooltip.");
 ```
 
-#### Methods {ignore=true}
+##### Methods {ignore=true}
 
  Method Definition | Description
 -----|-----
@@ -196,7 +196,7 @@ Tooltip(string text, Point point, int duration) | Show a tooltip message at the 
 ```cs
 Balloon("This is balloon.");
 ```
-#### Methods {ignore=true}
+##### Methods {ignore=true}
 
  Method Definition | Description
 -----|-----

@@ -11,7 +11,7 @@ To use this class, declare as following:
 using Crevice.WinAPI.Window;
 ```
   
-### Methods
+##### Methods
   
   
 Return Value | Method Definition | Description
@@ -60,7 +60,7 @@ using Crevice.WinAPI.CoreAudio;
 var VolumeControl = new VolumeControl();
 ```
   
-### Methods
+##### Methods
   
   
 Return Value | Method Definition | Description
