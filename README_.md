@@ -2445,7 +2445,7 @@ A bit simplified, but sufficiently practical classes are provided in `Crevice.Co
 ```cs
 using Crevice.Core.Example;
   
-var keys = new SimpleKeySetA(maxSize: 10);
+var keysA = new SimpleKeySetA(maxSize: 10);
 var root = new SimpleRootElement();
 var gm = new SimpleGestureMachine();
 ```
@@ -2456,9 +2456,9 @@ Then, you can be able to start writing gesture DSL.
 var whenever = root.When(ctx => {
     return true;
 });
-var action = whenever.On(keys[0]);
+var action = whenever.On(keysA[0]);
 action.Do(ctx => {
-    // When PressEvent and ReleaseEvent of keys[0] are given to GestureMachine,
+    // When PressEvent and ReleaseEvent of keysA[0] are given to GestureMachine,
     // then this code will be executed.
 });
 ```
@@ -2473,12 +2473,12 @@ And finally, you should connect user input to `GestureMachine`.
   
 ```cs
 // If the following events are input to `GestureMachine`,
-gm.Input(keys[0].PressEvent);
-gm.Input(keys[0].ReleaseEvent);
+gm.Input(keysA[0].PressEvent);
+gm.Input(keysA[0].ReleaseEvent);
 // then the action will be executed here.
 ```
   
-After using it, it should be disposed.
+After using it, `GestureMachine` should be disposed.
   
 ```cs
 gm.Dispose();
