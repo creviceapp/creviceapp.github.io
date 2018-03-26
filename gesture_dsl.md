@@ -76,12 +76,14 @@ Release(ctx => {});
 
 ```cs
 Chrome.
-OnDecomposed(Keys.RButton). // If you press and hold mouse's right button,
+OnDecomposed(Keys.RButton). // If you press mouse's right button many times,
 Press(ctx => 
 {
-    // then this code will be executed, each time the press event will be published.
+    // then this code will be executed, each time the PRESS event will be published,
 }). 
-Release(ctx => {});
+Release(ctx => {
+    // and then this code will be executed, each time the RELEASE event will be published.
+});
 ```
 
 ```cs
