@@ -38,7 +38,7 @@ Do(ctx => // you hold the button until it to be timeout and release it,
 
 This means actions declared in `Do()` clause is not assured it's execution.
 
-Above three gestures are **Button gesture** by *the standard (double throw) buttons*. `On()` clause with standard buttons can be used for declare `Do()` clause but also `Press()` and `Release()` clauses.
+Above three gestures are **Button gesture** by standard (*double throw*) buttons. `On()` clause with standard buttons can be used for declare `Do()` clause but also `Press()` and `Release()` clauses.
 
 _Note: See [Appendix 2. - Key](#key) for the details about the type of keys (single throw and double throw)._
 
@@ -87,7 +87,7 @@ _Note: Be careful that this conversion is incomplete. See [Convert a button or a
 
 ## Button gesture with single throw button
 
-Few of the buttons in `Keys`: `WheelUp`, `WheelDown`, `WheelLeft`, and `WheelRight`, are different from the standard ones. These are *double throw*, have only one state and only one event. So, `On()` clauses with these can not be used with `Press()` and `Release()` clauses.
+Few of the buttons in `Keys`: `WheelUp`, `WheelDown`, `WheelLeft`, and `WheelRight`, are different from the standard ones. These are *single throw* buttons, have only one state and only one event. So, `On()` clauses with these can not be used with `Press()` and `Release()` clauses.
 
 ```cs
 Chrome.
