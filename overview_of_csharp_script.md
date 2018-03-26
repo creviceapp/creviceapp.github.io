@@ -34,7 +34,7 @@ _Note : This directive should be placed on the top of your C# Scripting code exc
 
 ## Tutorial of C# Language
 
-There are a lot of good tutorial of C# language. You can choose ones you like to learn it. The followings are just an example:
+There are a lot of good tutorials of C# language that you can pick to learn. The followings are just an example:
 
 <a href="https://docs.microsoft.com/en-us/dotnet/csharp/quick-starts/"><img title="C# interactive tutorials - C# quickstarts | Microsoft Docs" src="images/docs.microsoft.com_en-us_dotnet_csharp_quick-starts.png" alt="https://docs.microsoft.com/en-us/dotnet/csharp/quick-starts/" width="400" /></a>
 <div class="img-caption"><a href="https://docs.microsoft.com/en-us/dotnet/csharp/quick-starts/">C# interactive tutorials - C# quickstarts | Microsoft Docs</a></div>
