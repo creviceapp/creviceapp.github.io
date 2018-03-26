@@ -2458,7 +2458,7 @@ var whenever = root.When(ctx => {
 });
 var action = whenever.On(keys[0]);
 action.Do(ctx => {
-    // When PressEvent and ReleaseEvent of keysA[0] are given to GestureMachine,
+    // When PressEvent and ReleaseEvent of keys[0] are given to GestureMachine,
     // then this code will be executed.
 });
 ```
