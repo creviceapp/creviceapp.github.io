@@ -79,7 +79,7 @@ As you may know, mouse gestures with it's buttons are called "rocker gesture" in
   
 ```cs
 // Button gesture.
-Chrome.
+Browser.
 On(Keys.RButton). // If you press mouse's right button,
 Do(ctx => // and release mouse's right button,
 {
@@ -89,7 +89,7 @@ Do(ctx => // and release mouse's right button,
   
 ```cs
 // Button gesture with two mouse buttons.
-Chrome.
+Browser.
 On(Keys.RButton). // If you press mouse's right button,
 On(Keys.LButton). // and press mouse's left button,
 Do(ctx => // and release mouse's left or right button,
@@ -101,7 +101,7 @@ Do(ctx => // and release mouse's left or right button,
 Even if after pressing a button or a key which means the start of a gesture, you can cancel it by holding and pressing it until it to be timeout.
   
 ```cs
-Chrome.
+Browser.
 On(Keys.RButton). // If you WRONGLY pressed mouse's right button,
 Do(ctx => // you hold the button until it to be timeout and release it,
 {
@@ -122,24 +122,23 @@ _Note: See [Appendix 2. - Key](#key ) for the details about the type of keys (si
 `Do()` clause fits to many cases, but there are cases do not fit to. For example, where there is need to hook to the press or release event of a button or a key. `Press()` and `Release()` clauses fit to this case. These can be written just after `On()` clause.
   
 ```cs
-// Convert Keys.XButton1 to Keys.LWin.
-Chrome.
-On(Keys.XButton1).
-Press(ctx =>
+Browser.
+On(Keys.RButton).
+Press(ctx => // If you press mouse's right button,
 {
-    SendInput.ExtendedKeyDown(Keys.LWin);
+    // then this code will be executed.
 }).
-Release(ctx =>
+Release(ctx => // And release it,
 {
-    SendInput.ExtendedKeyUp(Keys.LWin);
+    // then this code will be executed.
 });
 ```
   
-For `Release()` clause, it can be after `Do()` clause.
+For `Release()` clause, it can be after `Do()` clause. 
   
 ```cs
-Chrome.
-On(Keys.XButton2).
+Browser.
+On(Keys.RButton).
 Press(ctx =>
 {
     // Assured.
@@ -158,7 +157,7 @@ Release(ctx =>
   
 Actions declared in `Press()` and `Release()` clauses are different from it of `Do()` clause, the execution of these are assured.
   
-_Note: Be careful that this conversion is incomplete. See [Convert a button or a key into an arbitrary one](#convert-a-button-or-a-key-into-an-arbitrary-one ) for more details._
+_Note: Be careful that there are cases which Inappropriate when you use this for conversion of buttons or keys as is. See [Convert a button or a key into an arbitrary one](#convert-a-button-or-a-key-into-an-arbitrary-one ) for more details._
   
 ## Button gesture with single throw button
   
@@ -167,19 +166,19 @@ _Note: Be careful that this conversion is incomplete. See [Convert a button or a
 Few of the buttons in `Keys`: `WheelUp`, `WheelDown`, `WheelLeft`, and `WheelRight`, are different from the standard ones. These are *single throw* buttons, have only one state and only one event. So, `On()` clauses with these can not be used with `Press()` and `Release()` clauses.
   
 ```cs
-Chrome.
+Browser.
 On(Keys.WheelUp).
 Press(ctx => { }); // Compilation error
 ```
   
 ```cs
-Chrome.
+Browser.
 On(Keys.WheelUp).
 Do(ctx => { }); // OK
 ```
   
 ```cs
-Chrome.
+Browser.
 On(Keys.WheelUp).
 Release(ctx => { }); // Compilation error
 ```
@@ -202,17 +201,12 @@ Single state buttons are `Keys.WheelUp`,  `Keys.WheelDown`,  `Keys.WheelLeft`, a
 `On()` clause takes arguments that consist of combination of `Keys.MoveUp`, `Keys.MoveDown`, `Keys.MoveLeft` and `Keys.MoveRight`. These are representing directions of movements of the mouse pointer.
   
 ```cs
-Chrome.
+Browser.
 On(Keys.RButton). // If you press right button,
 On(Keys.MoveDown, Keys.MoveRight). // and draw stroke to down and to right by the pointer,
 Do(ctx => // and release right button,
 {
-    SendInput.Multiple().
-    ExtendedKeyDown(Keys.ControlKey).
-    ExtendedKeyDown(Keys.W).
-    ExtendedKeyUp(Keys.W).
-    ExtendedKeyUp(Keys.ControlKey).
-    Send(); // then send Ctrl+W to Chrome.
+    // then this code will be executed.
 });
 ```
   
@@ -220,21 +214,21 @@ Do(ctx => // and release right button,
   
   
 ```cs
-Chrome.
+Browser.
 On(Keys.RButton).
 On(Keys.MoveDown).
 Press(ctx => { }); // Compilation error
 ```
   
 ```cs
-Chrome.
+Browser.
 On(Keys.RButton).
 On(Keys.MoveDown).
 Do(ctx => { }); // OK
 ```
   
 ```cs
-Chrome.
+Browser.
 On(Keys.RButton).
 On(Keys.MoveDown).
 Release(ctx => { }); // Compilation error
