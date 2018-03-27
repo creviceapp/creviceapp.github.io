@@ -377,7 +377,7 @@ public virtual State Reset()
     => this;
 ```
 
-and functions for utility.
+and functions for utility, used by child classes,
 ```cs
 protected static bool HasPressExecutors(
     IReadOnlyList<IReadOnlyDoubleThrowElement> doubleThrowElements)
@@ -390,15 +390,19 @@ protected static bool HasDoExecutors(
 protected static bool HasReleaseExecutors(
     IReadOnlyList<IReadOnlyDoubleThrowElement> doubleThrowElements)
     => doubleThrowElements.Any(d => d.ReleaseExecutors.Any());
+```
 
-public bool IsState0 => GetType() == typeof(State0);
-public bool IsStateN => GetType() == typeof(StateN);
+and used mainly in user script; `State` may be returned as a parameter of callback events. The following functions are useful for treating convertion of `State` to it's child class. It is hard to do it without these, because `State`, `State0`, and `StateN` are heavily parameterlized by generics types.
 
-public State0 AsState0()
-    => this as State0;
+```cs
+public bool IsState0 => GetType() == typeof(State0<...snip...>);
+public bool IsStateN => GetType() == typeof(StateN<...snip...>);
 
-public StateN<TConfig, TContextManager, TEvalContext, TExecContext> AsStateN()
-    => this as StateN;
+public State0<...snip...> AsState0()
+    => this as State0<...snip...>;
+
+public StateN<...snip...> AsStateN()
+    => this as StateN<...snip...>;
 ```
 
 Here, `State` is already supports basic functions, `Input()`, `Timeout()`, and `Reset()`.
@@ -414,7 +418,7 @@ sequenceDiagram
 
 ```
 
-Also, `Timeout()` and `Reset()` of `State` always returns itself. This means if the state of a `GestureMachine` is `State`, it will not be effected by these functions.
+`Timeout()` and `Reset()` of `State` always returns itself. This means if the state of a `GestureMachine` is `State`, it will not be effected by these functions.
 
 ```mermaid
 graph TD;
@@ -427,9 +431,9 @@ _Note: Generics type patameters are abbreviated on the avobe codes for readabili
 
 ### State0
 
-`Crevice.Core.FSM.State0` is the initial state. 
+`Crevice.Core.FSM.State0` is the initial state. This class inherits `State`.
 
 
 ### StateN
 
-`Crevice.Core.FSM.StateN` represents states in which the depth grater than 0.
+`Crevice.Core.FSM.StateN` represents states in which the depth grater than 0. This class inherits `State`.
