@@ -60,6 +60,11 @@ body section.cover.show {
               '<script type="WaveDrom">' + code + "<\/script>"
             );
           }
+          else if (lang === "mermaid") {
+            return (
+              ' <div class="mermaid">' + code + "<\/div>"
+            );
+          }
           else if (lang === "force_js") {
             return (
               '<script type="text/javascript">' + code + "<\/script>"
@@ -83,4 +88,5 @@ body section.cover.show {
 </script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/wavedrom/1.6.2/skins/default.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/wavedrom/1.6.2/wavedrom.min.js"></script>
+<script src="//unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script>
 </html>

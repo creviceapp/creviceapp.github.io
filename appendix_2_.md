@@ -327,3 +327,129 @@ _Note: This class is `IDisposable` so it should be disposed by calling `Dispose(
   
 `CreviceLib` supports physical and logical event types, for the abstraction of multiple input devices. In contrast to `Input()` function of `GestureMachine` which only takes physical event, `On()` function in gesture DSL takes both physical and logical events. In case a logical event be given to `On()` as the arguement, and a physical event corresponding to it be given to `Input()`, `GestureMachine` will treat it correctly in their relationship on physical and logical event types.
   
+## FSM of GestureMachine
+  
+  
+`GestureMachine` has a state representing it's current context. The initial state is the instance of `State0`, and the others are of `StateN`. `N` of `StateN` means an natural number grater than 0. So, there is no limit for the depth of the context.
+  
+```mermaid
+graph TD;
+    A["State0 (Initial state)"]-->B["StateN"];
+    B-->A;
+    B-->C["StateN'"];
+    C-->B;
+    C-->D["StateN''"];
+    D-->C;
+    D-->E["..."];
+    E-->D;
+```
+  
+  
+_Note: Crevice 3.x has the limit for the depth of the context. This limitation has been relaxed on Crevice 4.0._
+  
+`CreviceLib` supports several features which naturally be in need of like the following: **cancel**, **timeout**, and  **reset**. `GestureMachine`, `State0`, and `StateN` should support this; therefore the flow of process and the implimentations of these classes are a bit complexed, but these are in reason, so the following gudance may be sutable even for those new to FSM (Finite state machine) to learn it.
+  
+### Result
+  
+  
+`Crevice.Core.FSM.Result` is a class representing the result of `Input()` function which is implemented in `State`, `State0`, and `StateN`.
+  
+`Result` has two properties, `EventIsConsumed` and `NextState`. `EventIsConsumed` represents the event given to `Input()` was consumed or not, and `NextState` represents the next state of `GestureMachine`; this can be itself and can be `State0` directly from deeper one, for example `StateN` (N=3).
+  
+`Result` can be initialized as following:
+  
+```cs
+Result.Create(eventIsConsumed: false, nextState: this);
+```
+  
+ _Note: `GestureMachine` also has `Input()` function, but it is not same to this; it calls `Input()` of internal `State` and returns boolean value, `Result.EventIsConsumed`._
+  
+### State
+  
+  
+`Crevice.Core.FSM.State` is parent abstract class for `State0` and `StateN`.
+  
+`State` have a only one property `Depth`,
+```cs
+public int Depth { get; }
+```
+  
+a constructor,
+```cs
+public State(int depth)
+{
+    Depth = depth;
+}
+```
+  
+virtual functions,
+```cs
+public virtual Result Input(IPhysicalEvent evnt)
+    => Result.Create(eventIsConsumed: false, nextState: this);
+  
+public virtual State Timeout()
+    => this;
+  
+public virtual State Reset()
+    => this;
+```
+  
+and functions for utility.
+```cs
+protected static bool HasPressExecutors(
+    IReadOnlyList<IReadOnlyDoubleThrowElement> doubleThrowElements)
+    => doubleThrowElements.Any(d => d.PressExecutors.Any());
+  
+protected static bool HasDoExecutors(
+    IReadOnlyList<IReadOnlyDoubleThrowElement> doubleThrowElements)
+    => doubleThrowElements.Any(d => d.DoExecutors.Any());
+  
+protected static bool HasReleaseExecutors(
+    IReadOnlyList<IReadOnlyDoubleThrowElement> doubleThrowElements)
+    => doubleThrowElements.Any(d => d.ReleaseExecutors.Any());
+  
+public bool IsState0 => GetType() == typeof(State0);
+public bool IsStateN => GetType() == typeof(StateN);
+  
+public State0 AsState0()
+    => this as State0;
+  
+public StateN<TConfig, TContextManager, TEvalContext, TExecContext> AsStateN()
+    => this as StateN;
+```
+  
+Here, `State` is already supports basic functions, `Input()`, `Timeout()`, and `Reset()`.
+  
+`Input()` of `State` always returns `Result(eventIsConsumed: false, nextState: this)`. This means the event given to this will never be consumed.
+  
+```mermaid
+sequenceDiagram
+    participant A as GestureMachine
+    participant B as State
+    A->>B: Input(event)
+    B->>A: Result(eventIsConsumed: false, nextState: this)
+
+```
+  
+Also, `Timeout()` and `Reset()` of `State` always returns itself. This means if the state of a `GestureMachine` is `State`, it will not be effected by these functions.
+  
+```mermaid
+graph TD;
+    A["State"];;
+    A-->|"Timeout()"|A;
+    A-->|"Reset()"|A;
+```
+  
+_Note: Generics type patameters are abbreviated on the avobe codes for readability. If you want to read the original code, see [Core.FSM.State.cs](https://github.com/creviceapp/creviceapp/blob/9a090645bb5255680e50331fb3f1f9cdfcdb7e63/CreviceLib/Core.FSM.State.cs )._
+  
+### State0
+  
+  
+`Crevice.Core.FSM.State0` is the initial state. 
+  
+  
+### StateN
+  
+  
+`Crevice.Core.FSM.StateN` represents states in which the depth grater than 0.
+  
