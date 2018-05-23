@@ -278,14 +278,14 @@ var callbackManager = new SimpleCallbackManager();
 Avaliable event properties are the following:
 
 ```cs
-callbackManager.StrokeReset += (sender, e) { };
-callbackManager.StrokeUpdate += (sender, e) { };
-callbackManager.StateChange += (sender, e) { };
-callbackManager.GestureCancel += (sender, e) { };
-callbackManager.GestureTimeout += (sender, e) { };
-callbackManager.MachineStart += (sender, e) { };
-callbackManager.MachineReset += (sender, e) { };
-callbackManager.MachineStop += (sender, e) { };
+callbackManager.StrokeReset += (sender, e) => { };
+callbackManager.StrokeUpdate += (sender, e) => { };
+callbackManager.StateChange += (sender, e) => { };
+callbackManager.GestureCancel += (sender, e) => { };
+callbackManager.GestureTimeout += (sender, e) => { };
+callbackManager.MachineStart += (sender, e) => { };
+callbackManager.MachineReset += (sender, e) => { };
+callbackManager.MachineStop += (sender, e) => { };
 ```
 
 See [Config - Events](#events) for the details.

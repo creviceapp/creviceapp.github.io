@@ -46,43 +46,43 @@ Config.UI.TooltipPositionBinding = (point) =>
 ### StrokeReset {ignore=true}
 
 ```cs
-Config.Callback.StrokeReset += (sender, e) { };
+Config.Callback.StrokeReset += (sender, e) => { };
 ```
 This event activated when the state of mouse's stroke to be reset.
 `e` is `StrokeResetEventHandler`, and it does not have special properties.
 
-### StrokeUpdate {ignore=true}
+### StrokeUpdated {ignore=true}
 ```cs
-Config.Callback.StrokeUpdate += (sender, e) { };
+Config.Callback.StrokeUpdated += (sender, e) => { };
 ```
 
 This event activated when the state of mouse's stroke to be changed.
-`e` is `StrokeUpdateEventHandler `.
+`e` is `StrokeUpdatedEventHandler `.
 
 Type | Property Name | Description |
 -----|-----|------
 IReadOnlyList&lt;Stroke&gt; | Strokes | 
 
-### StateChange {ignore=true}
+### StateChanged {ignore=true}
 ```cs
-Config.Callback.StateChange += (sender, e) { };
+Config.Callback.StateChanged += (sender, e) => { };
 ```
 
 This event activated when the state of GestureMachine to be changed. 
-`e` is `StateChangeEventHandler`.
+`e` is `StateChangedEventHandler`.
 
 Type | Property Name | Description |
 -----|-----|------
 State | LastState | 
 State | CurrentState |
 
-### GestureCancel {ignore=true}
+### GestureCanceled {ignore=true}
 ```cs
-Config.Callback.GestureCancel += (sender, e) { };
+Config.Callback.GestureCanceled += (sender, e) => { };
 ```
 
-This event activated when the gesture to be cancelled.
-`e` is `GestureCancelEventHandler`.
+This event activated when the gesture to be canceled.
+`e` is `GestureCanceledEventHandler`.
 
 Type | Property Name | Description |
 -----|-----|------
@@ -91,7 +91,7 @@ StateN | LastState |
 ### GestureTimeout {ignore=true}
 
 ```cs
-Config.Callback.GestureTimeout += (sender, e) { };
+Config.Callback.GestureTimeout += (sender, e) => { };
 ```
 
 This event activated when the gesture to be timeout.
@@ -104,7 +104,7 @@ StateN | LastState |
 ### MachineStart {ignore=true}
 
 ```cs
-Config.Callback.MachineStart += (sender, e) { };
+Config.Callback.MachineStart += (sender, e) => { };
 ```
 This event activated when GestureMachine to be started.
 `e` is `MachineStartEventHandler`, and it does not have special properties.
@@ -112,7 +112,7 @@ This event activated when GestureMachine to be started.
 ### MachineReset {ignore=true}
 
 ```cs
-Config.Callback.MachineReset += (sender, e) { };
+Config.Callback.MachineReset += (sender, e) => { };
 ```
 
 This event activated when GestureMachine to be reset for some reasons.
@@ -125,7 +125,8 @@ State | LastState |
 ### MachineStop {ignore=true}
 
 ```cs
-Config.Callback.MachineStop += (sender, e) { };
+Config.Callback.MachineStop += (sender, e) => { };
 ```
+
 This event activated when GestureMachine to be stopped.
 `e` is `MachineStopEventHandler`, and it does not have special properties.

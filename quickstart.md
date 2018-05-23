@@ -3,6 +3,7 @@
 
 After the first execution of the application, you can find `default.csx` in the directory `%APPDATA%\Crevice4`. It's the userscript file. Please open it with a text editor and take a look through it.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VcUqzj0K9lY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 After several `using` declaring lines, you can see `Browser` definition as following (but here, a little bit shortened):
 
@@ -40,16 +41,6 @@ This is a mouse gesture definition; when you press and hold `Keys.RButton`, and 
 
 As long as Crevice4 is executing, you can edit userscript file at any time. While reading the following sections, of course. Crevice4 supports **hotloading** feature. Whenever Crevice4 detects an update of user script file, it will be compiled and evaluated immediately, then the userscript updated will be loaded if the compilation is successful. 
 
-<!--
-// todo movie
-
-If the compilation is failed, error message will be shown. You can see the details of it by clicking it.
-
-// todo movie
-
-If the evaluation is falied, warning message will be shown. You can see the details of it by clicking it.
-
-//todo movie
--->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NDZc8hArVd8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 The userscript file is just a C# Scripting file. You can do anything you want by writing your own script in it, or else by just copying codes from [Stack Overflow](https://stackoverflow.com/). See [Overview of C# Scripting](#overview-of-c-scripting) for more details.

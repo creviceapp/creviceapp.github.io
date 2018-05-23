@@ -11,8 +11,24 @@
   
   
   
+### From Windows Store
   
   
+  
+Crevice 4 has been released on Windows Store. You can now get Crevice 4 more easily!
+  
+[Get Crevice 4 \- Microsoft Store](https://www.microsoft.com/en-us/store/p/crevice-4/9nzxvrj73xj0 )
+  
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2dyD36-TMog" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  
+  
+### From GitHub
+  
+  
+  
+Extract zip file to any location, and click `crevice4.exe`.
+  
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PQg8h_6h62w" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   
   
   
@@ -23,6 +39,7 @@
   
 After the first execution of the application, you can find `default.csx` in the directory `%APPDATA%\Crevice4`. It's the userscript file. Please open it with a text editor and take a look through it.
   
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VcUqzj0K9lY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   
 After several `using` declaring lines, you can see `Browser` definition as following (but here, a little bit shortened):
   
@@ -60,8 +77,7 @@ This is a mouse gesture definition; when you press and hold `Keys.RButton`, and 
   
 As long as Crevice4 is executing, you can edit userscript file at any time. While reading the following sections, of course. Crevice4 supports **hotloading** feature. Whenever Crevice4 detects an update of user script file, it will be compiled and evaluated immediately, then the userscript updated will be loaded if the compilation is successful. 
   
-  
-  
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NDZc8hArVd8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   
 The userscript file is just a C# Scripting file. You can do anything you want by writing your own script in it, or else by just copying codes from [Stack Overflow](https://stackoverflow.com/ ). See [Overview of C# Scripting](#overview-of-c-scripting ) for more details.
   
@@ -486,8 +502,7 @@ There are a lot of good tutorials of C# language that you can pick to learn. The
   
 Once open your user script with a text editor, you can edit it whenever you like, and the changes given will be reflect immediately as mentioned before with **hot reloading** feature.
   
-  
-// image of editing with hot reloading feature
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NDZc8hArVd8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> 
   
 ## Debugging with Console
   
@@ -501,7 +516,7 @@ When crevice4 starts with `--verbose` option, invocation of functions like `Cons
 > crevice4.exe --verbose
 ```
   
-// image
+<iframe width="560" height="315" src="https://www.youtube.com/embed/c8bRyaE1iC0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> 
   
   
 ## Edit user script with Visual Studio Code
@@ -510,16 +525,17 @@ When crevice4 starts with `--verbose` option, invocation of functions like `Cons
   
 Simple text editors can do this, but IDE which supports IntelliSense is very helpful. Cevice4 provides IDE integrate feature. 
   
-### Install Visual Studio Code
+[Visual Studio Code](https://code.visualstudio.com/ ) and [C\# Plugin](https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp ) are required. 
   
+And also, `IDESupport` files must be placed in Crevice 4 userscript directory. The way to setup it is simple, extract Crevice 4 zip archive distributed on GitHub as the name `IDESupport` and then, place it in Crevice 4 userscript directory.
   
-### Install C# plugin
+The following instruction movie includes the way to setup `IDESupport` files.
   
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VkRK_w7ad80" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   
-### Install IDESupport files
+After the setup, you can edit Crevice 4 user script with Visual Studio Code.
   
-  
-  
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4mK8CgCwSFw" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   
   
   
@@ -721,6 +737,15 @@ Do(ctx =>
 ```
   
 There are more a lot of numbers of parameters can be used for operate the window. See [WM\_SYSCOMMAND message](https://msdn.microsoft.com/library/windows/desktop/ms646360%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396 ) for more details.
+  
+## Draw mouse gesture trail
+  
+  
+  
+If you want to know whether mouse gesture is certainly activated or not, introducing the following extension is help you.
+[GestureStrokeOverlay\.cs](https://gist.github.com/rubyu/1be7e0594945e5d304764372aaaf1a0d )
+  
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1b8raQthC_o" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   
 ## Change gesture behavior by modifier keys
   
@@ -1242,49 +1267,49 @@ Config.UI.TooltipPositionBinding = (point) =>
   
   
 ```cs
-Config.Callback.StrokeReset += (sender, e) { };
+Config.Callback.StrokeReset += (sender, e) => { };
 ```
 This event activated when the state of mouse's stroke to be reset.
 `e` is `StrokeResetEventHandler`, and it does not have special properties.
   
-### StrokeUpdate
+### StrokeUpdated
   
   
 ```cs
-Config.Callback.StrokeUpdate += (sender, e) { };
+Config.Callback.StrokeUpdated += (sender, e) => { };
 ```
   
 This event activated when the state of mouse's stroke to be changed.
-`e` is `StrokeUpdateEventHandler `.
+`e` is `StrokeUpdatedEventHandler `.
   
 Type | Property Name | Description |
 -----|-----|------
 IReadOnlyList&lt;Stroke&gt; | Strokes | 
   
-### StateChange
+### StateChanged
   
   
 ```cs
-Config.Callback.StateChange += (sender, e) { };
+Config.Callback.StateChanged += (sender, e) => { };
 ```
   
 This event activated when the state of GestureMachine to be changed. 
-`e` is `StateChangeEventHandler`.
+`e` is `StateChangedEventHandler`.
   
 Type | Property Name | Description |
 -----|-----|------
 State | LastState | 
 State | CurrentState |
   
-### GestureCancel
+### GestureCanceled
   
   
 ```cs
-Config.Callback.GestureCancel += (sender, e) { };
+Config.Callback.GestureCanceled += (sender, e) => { };
 ```
   
-This event activated when the gesture to be cancelled.
-`e` is `GestureCancelEventHandler`.
+This event activated when the gesture to be canceled.
+`e` is `GestureCanceledEventHandler`.
   
 Type | Property Name | Description |
 -----|-----|------
@@ -1295,7 +1320,7 @@ StateN | LastState |
   
   
 ```cs
-Config.Callback.GestureTimeout += (sender, e) { };
+Config.Callback.GestureTimeout += (sender, e) => { };
 ```
   
 This event activated when the gesture to be timeout.
@@ -1310,7 +1335,7 @@ StateN | LastState |
   
   
 ```cs
-Config.Callback.MachineStart += (sender, e) { };
+Config.Callback.MachineStart += (sender, e) => { };
 ```
 This event activated when GestureMachine to be started.
 `e` is `MachineStartEventHandler`, and it does not have special properties.
@@ -1320,7 +1345,7 @@ This event activated when GestureMachine to be started.
   
   
 ```cs
-Config.Callback.MachineReset += (sender, e) { };
+Config.Callback.MachineReset += (sender, e) => { };
 ```
   
 This event activated when GestureMachine to be reset for some reasons.
@@ -1335,8 +1360,9 @@ State | LastState |
   
   
 ```cs
-Config.Callback.MachineStop += (sender, e) { };
+Config.Callback.MachineStop += (sender, e) => { };
 ```
+  
 This event activated when GestureMachine to be stopped.
 `e` is `MachineStopEventHandler`, and it does not have special properties.
   
@@ -2720,14 +2746,14 @@ var callbackManager = new SimpleCallbackManager();
 Avaliable event properties are the following:
   
 ```cs
-callbackManager.StrokeReset += (sender, e) { };
-callbackManager.StrokeUpdate += (sender, e) { };
-callbackManager.StateChange += (sender, e) { };
-callbackManager.GestureCancel += (sender, e) { };
-callbackManager.GestureTimeout += (sender, e) { };
-callbackManager.MachineStart += (sender, e) { };
-callbackManager.MachineReset += (sender, e) { };
-callbackManager.MachineStop += (sender, e) { };
+callbackManager.StrokeReset += (sender, e) => { };
+callbackManager.StrokeUpdate += (sender, e) => { };
+callbackManager.StateChange += (sender, e) => { };
+callbackManager.GestureCancel += (sender, e) => { };
+callbackManager.GestureTimeout += (sender, e) => { };
+callbackManager.MachineStart += (sender, e) => { };
+callbackManager.MachineReset += (sender, e) => { };
+callbackManager.MachineStop += (sender, e) => { };
 ```
   
 See [Config - Events](#events ) for the details.

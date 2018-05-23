@@ -182,6 +182,14 @@ Do(ctx =>
   
 There are more a lot of numbers of parameters can be used for operate the window. See [WM\_SYSCOMMAND message](https://msdn.microsoft.com/library/windows/desktop/ms646360%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396 ) for more details.
   
+## Draw mouse gesture trail
+  
+  
+If you want to know whether mouse gesture is certainly activated or not, introducing the following extension is help you.
+[GestureStrokeOverlay\.cs](https://gist.github.com/rubyu/1be7e0594945e5d304764372aaaf1a0d )
+  
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1b8raQthC_o" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  
 ## Change gesture behavior by modifier keys
   
   
