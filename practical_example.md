@@ -12,7 +12,7 @@ Do(ctx =>
 });
 ```
 
-But `UnicodeKeyStroke` method is slow. So if there is no need to use it, you should better to do it with `Clipboard` and Ctrl+V method. See [Paste text message](#paste-text-message).
+But `UnicodeKeyStroke` method is slow. So if there is no need to use it, you should better to do it with `Clipboard` and Ctrl+V method. See [Paste text message with clipboard](#paste-text-message-with-clipboard).
 
 ## Paste text message with clipboard
 
