@@ -2,7 +2,7 @@
 # Practical example
   
   
-## Input text message
+## Send keystrokes
   
   
 The following code input the message to the foreground application.
@@ -121,6 +121,282 @@ Do(ctx =>
   
  [DllImportAttribute Class (System.Runtime.InteropServices)](https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.dllimportattribute%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396 ) 
 [pinvoke.net: the interop wiki!](https://www.pinvoke.net/ )
+  
+## Find out the target application / window
+  
+  
+The following userscript shows the way to dig into target application / window:
+  
+```cs
+using System;
+  
+var Whenever = When(ctx =>
+{
+    return true;
+});
+  
+Whenever.
+On(Keys.MButton).
+Do(ctx =>
+{
+    Console.WriteLine($"ForegroundWindow.ThreadId: 0x{ctx.ForegroundWindow.ThreadId:X}");
+    Console.WriteLine($"ForegroundWindow.ProcessId: 0x{ctx.ForegroundWindow.ProcessId:X}");
+    Console.WriteLine($"ForegroundWindow.Text: {ctx.ForegroundWindow.Text}");
+    Console.WriteLine($"ForegroundWindow.ClassName: {ctx.ForegroundWindow.ClassName}");
+    Console.WriteLine($"ForegroundWindow.ModulePath: {ctx.ForegroundWindow.ModulePath}");
+    Console.WriteLine($"ForegroundWindow.ModuleName: {ctx.ForegroundWindow.ModuleName}");
+  
+    Console.WriteLine($"PointedWindow.ThreadId: 0x{ctx.PointedWindow.ThreadId:X}");
+    Console.WriteLine($"PointedWindow.ProcessId: 0x{ctx.PointedWindow.ProcessId:X}");
+    Console.WriteLine($"PointedWindow.Text: {ctx.ForegroundWindow.Text}");
+    Console.WriteLine($"PointedWindow.ClassName: {ctx.PointedWindow.ClassName}");
+    Console.WriteLine($"PointedWindow.ModulePath: {ctx.PointedWindow.ModulePath}");
+    Console.WriteLine($"PointedWindow.ModuleName: {ctx.PointedWindow.ModuleName}");
+});
+  
+```
+  
+If you using an application, it is on the foreground. For example, it to be Chrome here. Activate the above userscript, and then press the middle button. The following messages will be output:
+  
+```
+ForegroundWindow.ThreadId: 0xB20
+ForegroundWindow.ProcessId: 0x1058
+ForegroundWindow.Text: Crevice Documentation - Google Chrome
+ForegroundWindow.ClassName: Chrome_WidgetWin_1
+ForegroundWindow.ModulePath: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+ForegroundWindow.ModuleName: chrome.exe
+PointedWindow.ThreadId: 0xB20
+PointedWindow.ProcessId: 0x1058
+PointedWindow.Text: Crevice Documentation - Google Chrome
+PointedWindow.ClassName: Chrome_RenderWidgetHostHWND
+PointedWindow.ModulePath: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+PointedWindow.ModuleName: chrome.exe
+```
+  
+Next, if you move the cursor and point the Windows' taskbar and press the middle button, the following messages will be output:
+  
+```
+ForegroundWindow.ThreadId: 0xB20
+ForegroundWindow.ProcessId: 0x1058
+ForegroundWindow.Text: Crevice Documentation - Google Chrome
+ForegroundWindow.ClassName: Chrome_WidgetWin_1
+ForegroundWindow.ModulePath: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+ForegroundWindow.ModuleName: chrome.exe
+PointedWindow.ThreadId: 0x1DF8
+PointedWindow.ProcessId: 0x1D2C
+PointedWindow.Text: Crevice Documentation - Google Chrome
+PointedWindow.ClassName: MSTaskListWClass
+PointedWindow.ModulePath: C:\Windows\explorer.exe
+PointedWindow.ModuleName: explorer.exe
+```
+  
+`ForegroundWindow` and `PointedWindow` are `WindowInfo`, so there are more powerful functions like `GetChildWindows()` they have.
+  
+```cs
+  
+using System;
+  
+var Whenever = When(ctx =>
+{
+    return true;
+});
+  
+Whenever.
+On(Keys.MButton).
+Do(ctx =>
+{
+    Console.WriteLine($"ForegroundWindow.ThreadId: 0x{ctx.ForegroundWindow.ThreadId:X}");
+    Console.WriteLine($"ForegroundWindow.ProcessId: 0x{ctx.ForegroundWindow.ProcessId:X}");
+    Console.WriteLine($"ForegroundWindow.Text: {ctx.ForegroundWindow.Text}");
+    Console.WriteLine($"ForegroundWindow.ClassName: {ctx.ForegroundWindow.ClassName}");
+    Console.WriteLine($"ForegroundWindow.ModulePath: {ctx.ForegroundWindow.ModulePath}");
+    Console.WriteLine($"ForegroundWindow.ModuleName: {ctx.ForegroundWindow.ModuleName}");
+  
+    var children = ctx.ForegroundWindow.GetChildWindows();
+    for (var i = 0; i < children.Count; i++)
+    {
+        Console.WriteLine($"ForegroundWindow.Children[{i}].ThreadId: 0x{children[i].ThreadId:X}");
+        Console.WriteLine($"ForegroundWindow.Children[{i}].ProcessId: 0x{children[i].ProcessId:X}");
+        Console.WriteLine($"ForegroundWindow.Children[{i}].Text: {children[i].Text}");
+        Console.WriteLine($"ForegroundWindow.Children[{i}].ClassName: {children[i].ClassName}");
+        Console.WriteLine($"ForegroundWindow.Children[{i}].ModulePath: {children[i].ModulePath}");
+        Console.WriteLine($"ForegroundWindow.Children[{i}].ModuleName: {children[i].ModuleName}");
+    }
+});
+```
+  
+The following logs are dump data of Chrome and Explorer:
+  
+```
+ForegroundWindow.ThreadId: 0xB20
+ForegroundWindow.ProcessId: 0x1058
+ForegroundWindow.Text: Crevice Documentation - Google Chrome
+ForegroundWindow.ClassName: Chrome_WidgetWin_1
+ForegroundWindow.ModulePath: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+ForegroundWindow.ModuleName: chrome.exe
+ForegroundWindow.Children[0].ThreadId: 0xB20
+ForegroundWindow.Children[0].ProcessId: 0x1058
+ForegroundWindow.Children[0].Text: Chrome Legacy Window
+ForegroundWindow.Children[0].ClassName: Chrome_RenderWidgetHostHWND
+ForegroundWindow.Children[0].ModulePath: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+ForegroundWindow.Children[0].ModuleName: chrome.exe
+ForegroundWindow.Children[1].ThreadId: 0xB20
+ForegroundWindow.Children[1].ProcessId: 0x1058
+ForegroundWindow.Children[1].Text: Chrome Legacy Window
+ForegroundWindow.Children[1].ClassName: Chrome_RenderWidgetHostHWND
+ForegroundWindow.Children[1].ModulePath: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+ForegroundWindow.Children[1].ModuleName: chrome.exe
+ForegroundWindow.Children[2].ThreadId: 0xB20
+ForegroundWindow.Children[2].ProcessId: 0x1058
+ForegroundWindow.Children[2].Text: Chrome Legacy Window
+ForegroundWindow.Children[2].ClassName: Chrome_RenderWidgetHostHWND
+ForegroundWindow.Children[2].ModulePath: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+ForegroundWindow.Children[2].ModuleName: chrome.exe
+```
+  
+```
+ForegroundWindow.ProcessId: 0xFE0
+ForegroundWindow.Text:
+ForegroundWindow.ClassName: Shell_TrayWnd
+ForegroundWindow.ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.ModuleName: explorer.exe
+ForegroundWindow.Children[0].ThreadId: 0xD04
+ForegroundWindow.Children[0].ProcessId: 0xFE0
+ForegroundWindow.Children[0].Text: Start
+ForegroundWindow.Children[0].ClassName: Start
+ForegroundWindow.Children[0].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[0].ModuleName: explorer.exe
+ForegroundWindow.Children[1].ThreadId: 0xD04
+ForegroundWindow.Children[1].ProcessId: 0xFE0
+ForegroundWindow.Children[1].Text: Type here to search
+ForegroundWindow.Children[1].ClassName: TrayButton
+ForegroundWindow.Children[1].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[1].ModuleName: explorer.exe
+ForegroundWindow.Children[2].ThreadId: 0xD04
+ForegroundWindow.Children[2].ProcessId: 0xFE0
+ForegroundWindow.Children[2].Text:
+ForegroundWindow.Children[2].ClassName: TrayDummySearchControl
+ForegroundWindow.Children[2].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[2].ModuleName: explorer.exe
+ForegroundWindow.Children[3].ThreadId: 0xD04
+ForegroundWindow.Children[3].ProcessId: 0xFE0
+ForegroundWindow.Children[3].Text: Type here to search
+ForegroundWindow.Children[3].ClassName: Button
+ForegroundWindow.Children[3].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[3].ModuleName: explorer.exe
+ForegroundWindow.Children[4].ThreadId: 0xD04
+ForegroundWindow.Children[4].ProcessId: 0xFE0
+ForegroundWindow.Children[4].Text: Type here to search
+ForegroundWindow.Children[4].ClassName: Static
+ForegroundWindow.Children[4].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[4].ModuleName: explorer.exe
+ForegroundWindow.Children[5].ThreadId: 0xD04
+ForegroundWindow.Children[5].ProcessId: 0xFE0
+ForegroundWindow.Children[5].Text:
+ForegroundWindow.Children[5].ClassName: ToolbarWindow32
+ForegroundWindow.Children[5].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[5].ModuleName: explorer.exe
+ForegroundWindow.Children[6].ThreadId: 0xD04
+ForegroundWindow.Children[6].ProcessId: 0xFE0
+ForegroundWindow.Children[6].Text: Task View
+ForegroundWindow.Children[6].ClassName: TrayButton
+ForegroundWindow.Children[6].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[6].ModuleName: explorer.exe
+ForegroundWindow.Children[7].ThreadId: 0xD04
+ForegroundWindow.Children[7].ProcessId: 0xFE0
+ForegroundWindow.Children[7].Text:
+ForegroundWindow.Children[7].ClassName: ReBarWindow32
+ForegroundWindow.Children[7].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[7].ModuleName: explorer.exe
+ForegroundWindow.Children[8].ThreadId: 0xD04
+ForegroundWindow.Children[8].ProcessId: 0xFE0
+ForegroundWindow.Children[8].Text: Running applications
+ForegroundWindow.Children[8].ClassName: MSTaskSwWClass
+ForegroundWindow.Children[8].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[8].ModuleName: explorer.exe
+ForegroundWindow.Children[9].ThreadId: 0xD04
+ForegroundWindow.Children[9].ProcessId: 0xFE0
+ForegroundWindow.Children[9].Text: Running applications
+ForegroundWindow.Children[9].ClassName: MSTaskListWClass
+ForegroundWindow.Children[9].ModulePath: C:\Windows\explorer.exeForegroundWindow.Children[9].ModuleName: explorer.exe
+ForegroundWindow.Children[10].ThreadId: 0xD04
+ForegroundWindow.Children[10].ProcessId: 0xFE0
+ForegroundWindow.Children[10].Text:
+ForegroundWindow.Children[10].ClassName: PeopleBand
+ForegroundWindow.Children[10].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[10].ModuleName: explorer.exe
+ForegroundWindow.Children[11].ThreadId: 0xD04
+ForegroundWindow.Children[11].ProcessId: 0xFE0
+ForegroundWindow.Children[11].Text: People
+ForegroundWindow.Children[11].ClassName: TrayButton
+ForegroundWindow.Children[11].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[11].ModuleName: explorer.exe
+ForegroundWindow.Children[12].ThreadId: 0xD04
+ForegroundWindow.Children[12].ProcessId: 0xFE0
+ForegroundWindow.Children[12].Text:
+ForegroundWindow.Children[12].ClassName: TrayNotifyWnd
+ForegroundWindow.Children[12].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[12].ModuleName: explorer.exe
+ForegroundWindow.Children[13].ThreadId: 0xD04
+ForegroundWindow.Children[13].ProcessId: 0xFE0
+ForegroundWindow.Children[13].Text:
+ForegroundWindow.Children[13].ClassName: Button
+ForegroundWindow.Children[13].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[13].ModuleName: explorer.exe
+ForegroundWindow.Children[14].ThreadId: 0xD04
+ForegroundWindow.Children[14].ProcessId: 0xFE0
+ForegroundWindow.Children[14].Text:
+ForegroundWindow.Children[14].ClassName: Button
+ForegroundWindow.Children[14].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[14].ModuleName: explorer.exe
+ForegroundWindow.Children[15].ThreadId: 0xD04
+ForegroundWindow.Children[15].ProcessId: 0xFE0
+ForegroundWindow.Children[15].Text: System Promoted Notification Area
+ForegroundWindow.Children[15].ClassName: ToolbarWindow32
+ForegroundWindow.Children[15].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[15].ModuleName: explorer.exe
+ForegroundWindow.Children[16].ThreadId: 0xD04
+ForegroundWindow.Children[16].ProcessId: 0xFE0
+ForegroundWindow.Children[16].Text:
+ForegroundWindow.Children[16].ClassName: SysPager
+ForegroundWindow.Children[16].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[16].ModuleName: explorer.exe
+ForegroundWindow.Children[17].ThreadId: 0xD04
+ForegroundWindow.Children[17].ProcessId: 0xFE0
+ForegroundWindow.Children[17].Text: User Promoted Notification Area
+ForegroundWindow.Children[17].ClassName: ToolbarWindow32
+ForegroundWindow.Children[17].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[17].ModuleName: explorer.exe
+ForegroundWindow.Children[18].ThreadId: 0xD04
+ForegroundWindow.Children[18].ProcessId: 0xFE0
+ForegroundWindow.Children[18].Text: Tray Input Indicator
+ForegroundWindow.Children[18].ClassName: TrayInputIndicatorWClass
+ForegroundWindow.Children[18].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[18].ModuleName: explorer.exe
+ForegroundWindow.Children[19].ThreadId: 0xD04
+ForegroundWindow.Children[19].ProcessId: 0xFE0
+ForegroundWindow.Children[19].Text:
+ForegroundWindow.Children[19].ClassName: IMEModeButton
+ForegroundWindow.Children[19].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[19].ModuleName: explorer.exe
+ForegroundWindow.Children[20].ThreadId: 0xD04
+ForegroundWindow.Children[20].ProcessId: 0xFE0
+ForegroundWindow.Children[20].Text:
+ForegroundWindow.Children[20].ClassName: InputIndicatorButton
+ForegroundWindow.Children[20].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[20].ModuleName: explorer.exe
+ForegroundWindow.Children[21].ThreadId: 0xD04
+ForegroundWindow.Children[21].ProcessId: 0xFE0
+ForegroundWindow.Children[21].Text: System Clock, 9:47 PM, ?5/?26/?2018
+ForegroundWindow.Children[21].ClassName: TrayClockWClass
+ForegroundWindow.Children[21].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[21].ModuleName: explorer.exe
+ForegroundWindow.Children[22].ThreadId: 0xD04
+ForegroundWindow.Children[22].ProcessId: 0xFE0
+ForegroundWindow.Children[22].Text: Action Center
+ForegroundWindow.Children[22].ClassName: TrayButton
+ForegroundWindow.Children[22].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[22].ModuleName: explorer.exe
+ForegroundWindow.Children[23].ThreadId: 0xD04
+ForegroundWindow.Children[23].ProcessId: 0xFE0
+ForegroundWindow.Children[23].Text:
+ForegroundWindow.Children[23].ClassName: TrayShowDesktopButtonWClass
+ForegroundWindow.Children[23].ModulePath: C:\Windows\explorer.exe
+ForegroundWindow.Children[23].ModuleName: explorer.exe
+```
+  
+Children of `WindowInfo` is also provides the functions, so that you can dig into more deeper and deeper.
   
 ## Change the state of window
   
