@@ -18,7 +18,7 @@ Usage:
                     option if you need to change the default location of user 
                     script. If given value is relative path, Crevice will 
                     resolve it to absolute path based on the default directory 
-                    (%USERPROFILE%\AppData\Roaming\Crevice4).
+                    (%USERPROFILE%\Crevice4).
   
   -p, --priority    (Default: High) Process priority. Acceptable values are the
                     following: AboveNormal, BelowNormal, High, Idle, Normal, 
