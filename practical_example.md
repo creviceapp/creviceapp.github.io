@@ -91,6 +91,30 @@ DeclareProfile("Other");
 
 See [Profile](#profile) for more details.
 
+## Refer the definition of `When` from another `When`
+
+`When()` returns an instance of [WhenElement](https://github.com/creviceapp/creviceapp/blob/51efbd2f9a62717956cf42aedfbed625aa3e13ae/CreviceLib/Core.DSL.cs#L61) which holds a function which given when it was declared. The value is read only and public. So, it is accsesible from another `WhenElement`.
+
+In the following example, [WhenElement.WhenEvaluator](https://github.com/creviceapp/creviceapp/blob/51efbd2f9a62717956cf42aedfbed625aa3e13ae/CreviceLib/Core.DSL.cs#L76) is referenced.
+
+```cs
+var Browser = When(ctx =>
+{
+    return ctx.ForegroundWindow.ModuleName == "chrome.exe" ||
+           ctx.ForegroundWindow.ModuleName == "firefox.exe" ||
+           ctx.ForegroundWindow.ModuleName == "opera.exe" ||
+           ctx.ForegroundWindow.ModuleName == "iexplore.exe";
+});
+
+var WheneverExceptForBrowser = When(ctx =>
+{
+    return !Browser.WhenEvaluator(ctx);
+});
+```
+
+##### Warning: 
+Application will hang up if `WhenElement.WhenEvaluator` loops. So be carefull when use it.
+
 ## Use Win32 API
 
 You can use Win32 APIs simply importing it.
