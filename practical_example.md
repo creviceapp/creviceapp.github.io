@@ -172,7 +172,9 @@ Do(ctx =>
 
 ```
 
-If you using an application, it is on the foreground. For example, it to be Chrome here. Activate the above userscript, and then press the middle button. The following messages will be output:
+If you using an application which is at the foreground. For example, it is Chrome, a browser. 
+
+Activate the above userscript, and then press the middle button. The following messages will be output:
 
 ```
 ForegroundWindow.ThreadId: 0xB20
@@ -189,7 +191,7 @@ PointedWindow.ModulePath: C:\Program Files (x86)\Google\Chrome\Application\chrom
 PointedWindow.ModuleName: chrome.exe
 ```
 
-Next, if you move the cursor and point the Windows' taskbar and press the middle button, the following messages will be output:
+Next, if you move the cursor and focus the Windows' taskbar, and press the middle button, then, the following messages will be output:
 
 ```
 ForegroundWindow.ThreadId: 0xB20
@@ -206,7 +208,7 @@ PointedWindow.ModulePath: C:\Windows\explorer.exe
 PointedWindow.ModuleName: explorer.exe
 ```
 
-`ForegroundWindow` and `PointedWindow` are `WindowInfo`, so there are more powerful functions like `GetChildWindows()` they have.
+`ForegroundWindow` and `PointedWindow` are `WindowInfo`, so these have more powerful functions like `GetChildWindows()`.
 
 ```cs
 
@@ -241,7 +243,7 @@ Do(ctx =>
 });
 ```
 
-The following logs are dump data of Chrome and Explorer:
+The following logs are the dump data of Chrome and Explorer:
 
 ```
 ForegroundWindow.ThreadId: 0xB20
@@ -412,7 +414,7 @@ ForegroundWindow.Children[23].ModulePath: C:\Windows\explorer.exe
 ForegroundWindow.Children[23].ModuleName: explorer.exe
 ```
 
-Children of `WindowInfo` is also provides the functions, so that you can dig into more deeper and deeper.
+Children of `WindowInfo` are also the instance of `WindowInfo` which provides same features, so you can dig into the tree of Windows' window more deeper and deeper.
 
 ## Change the state of window
 
