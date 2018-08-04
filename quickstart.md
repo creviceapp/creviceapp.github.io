@@ -16,7 +16,7 @@ var Browser = When(ctx =>
 });
 ```
 
-When the `ModuleName` of `ForegroundWindow` is one of follows, `chrome.exe`, `firefox.exe`, or `iexplore.exe`, then, `When` returns true; this is the declaration of initialization of a context which specialized to `Browser`. 
+When the `ModuleName` of `ForegroundWindow` is one of follows, `chrome.exe`, `firefox.exe`, or `iexplore.exe`, then `When` returns true; this is the declaration of initialization of a context which specialized to `Browser`. 
 
 After that, the declaration of gestures follows. Let's see the first one:
 
@@ -39,7 +39,7 @@ Do(ctx =>
 
 This is a mouse gesture definition; when you press and hold `Keys.RButton`, and then if you `Keys.WheelUp` it, the actions declared in `Do` will be executed.
 
-As long as Crevice4 is executing, you can edit userscript file at any time. While reading the following sections, of course. Crevice4 supports **hotloading** feature. Whenever Crevice4 detects an update of user script file, it will be compiled and evaluated immediately, then the userscript updated will be loaded if the compilation is successful. 
+As long as Crevice4 is executing, you can edit userscript file at any time. Of cause it's ok even if while you are reading the following sections. Crevice4 supports **hotloading** feature. Whenever Crevice4 detects an update of the userscript file, it will be compiled and evaluated immediately, then it will be loaded if the compilation is successful. 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NDZc8hArVd8" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 

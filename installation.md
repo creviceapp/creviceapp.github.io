@@ -3,7 +3,7 @@
 
 ### Install Crevice 4 From Windows Store
 
-Crevice 4 has been released on Windows Store. You can now get Crevice 4 more easily!
+Crevice 4 has been released on Windows Store. You can now get Crevice more easily!
 
 [Get Crevice 4 \- Microsoft Store](https://www.microsoft.com/en-us/store/p/crevice-4/9nzxvrj73xj0)
 
