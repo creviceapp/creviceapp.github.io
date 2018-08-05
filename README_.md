@@ -981,6 +981,73 @@ ForegroundWindow.Children[23].ModuleName: explorer.exe
   
 Children of `WindowInfo` are also the instance of `WindowInfo` which provides same features, so you can dig into the tree of Windows' window more deeper and deeper.
   
+## Notify gesture status changes
+  
+  
+  
+### Gesture timeout
+  
+  
+```cs
+{
+    Config.Callback.GestureTimeout += (sender, e) => { 
+        Tooltip("Gesture Timeout");
+    };
+}
+```
+  
+### Gesture stroke status
+  
+  
+  
+The following codes will help you to know current status of gesture stroke.
+  
+Matched stroke definition will be shown with prefix "✔ ", upcoming candidates will be shown with "➡ ", and if there is no matched stroke definition, current stroke will be shown with "❓ ".
+  
+```cs
+{
+    string StrokesToDirectionString(IEnumerable<Crevice.Core.Stroke.Stroke> strokes)
+        => string.Join("", strokes.Select(x => DirectionToString(x.Direction)));
+  
+    string StrokeSequenceToDirectionString(Crevice.Core.Stroke.StrokeSequence strokeSequence)
+        => string.Join("", strokeSequence.Select(x => DirectionToString(x)));
+  
+    string DirectionToString(Crevice.Core.Stroke.StrokeDirection d) 
+    {
+        switch (d) 
+        {
+            case Crevice.Core.Stroke.StrokeDirection.Up: return "↑";
+            case Crevice.Core.Stroke.StrokeDirection.Down: return "↓";
+            case Crevice.Core.Stroke.StrokeDirection.Left: return "←";
+            case Crevice.Core.Stroke.StrokeDirection.Right: return "→";
+            default: return "";
+        };
+    }
+  
+    string lastDirections = "";
+  
+    Config.Callback.StrokeUpdated += (sender, e) => {
+        if (lastDirections.Length == e.Strokes.Count) return;
+        var directions = string.Join("", StrokesToDirectionString(e.Strokes));
+        var state = CurrentProfile.GestureMachine.CurrentState;
+        if (state.IsStateN) {
+            var stateN = state.AsStateN();
+            var trigger = stateN.InversedStrokeTrigger;
+            var matches = trigger.Keys.Select(x => StrokeSequenceToDirectionString(x)).Where(x => x.StartsWith(directions)).ToList();
+            if (matches.Any())
+            {
+                Tooltip($"{string.Join("\r\n", matches.Select(s => s == directions? "✔ " + s : "➡ " + s))}");
+            }
+            else
+            {
+                Tooltip($"❓ {directions}");
+            }
+        }
+        lastDirections = directions;
+    };
+}
+```
+  
 ## Change the state of window
   
   
