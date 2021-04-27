@@ -488,6 +488,9 @@ There are a lot of good tutorials of C# language that you can pick to learn. The
   
 <a class="img-caption" href="https://www.tutorialspoint.com/csharp/index.htm"><img title="C# Tutorial" src="images/www.tutorialspoint.com_csharp.png" alt="https://www.tutorialspoint.com/csharp/index.htm" width="400" /></a>
 <div class="img-caption"><a href="https://www.tutorialspoint.com/csharp/index.htm">C# Tutorial | TutorialsPoint</a></div>
+
+<a class="img-caption" href="https://www.tutlane.com/tutorial/csharp"><img title="C# Tutorial" src="images/www.tutlane.com_tutorial_csharp.png" alt="https://www.tutlane.com/tutorial/csharp" width="400" /></a>
+<div class="img-caption"><a href="https://www.tutlane.com/tutorial/csharp">C# Tutorial | Tutlane</a></div>
   
 <a class="img-caption" href="https://mva.microsoft.com/en-US/training-courses/c-fundamentals-for-absolute-beginners-16169?l=Lvld4EQIC_2706218949"><img title="Learn C# for Beginners – Microsoft Virtual Academy" src="images/mva.microsoft.com_en-us_training-courses.png" alt="https://mva.microsoft.com/en-US/training-courses/c-fundamentals-for-absolute-beginners-16169?l=Lvld4EQIC_2706218949" width="400" /></a>
 <div class="img-caption"><a href="https://mva.microsoft.com/en-US/training-courses/c-fundamentals-for-absolute-beginners-16169?l=Lvld4EQIC_2706218949">Learn C# for Beginners | Microsoft Virtual Academy</a></div>
