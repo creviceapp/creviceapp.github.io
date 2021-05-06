@@ -495,6 +495,8 @@ There are a lot of good tutorials of C# language that you can pick to learn. The
 <a class="img-caption" href="https://docs.microsoft.com/en-us/dotnet/csharp/"><img title="C# Guide | Microsoft Docs" src="images/docs.microsoft.com_en-us_dotnet_csharp.png" alt="https://docs.microsoft.com/en-us/dotnet/csharp/" width="400" /></a>
 <div class="img-caption"><a href="https://docs.microsoft.com/en-us/dotnet/csharp/">C# Guide | Microsoft Docs</a></div>
   
+<a class="img-caption" href="https://www.tutlane.com/tutorial/csharp"><img title="C# Tutorial" src="" alt="https://www.tutlane.com/tutorial/csharp" width="400" /></a>
+<div class="img-caption"><a href="https://www.tutorialspoint.com/csharp/index.htm">C# Tutorial | Tutlane</a></div>
   
   
   
